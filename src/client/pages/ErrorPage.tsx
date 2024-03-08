@@ -2,9 +2,11 @@ import { Link } from "react-router-dom";
 
 function ErrorPage() {
   return (
-    <div>
+    <div className="flex flex-col items-center justify-center h-screen">
       <h1 className="text-error">404: Page Not Found</h1>
-      <Link to="/">Return back to home</Link>
+      <Link to="/" className="btn btn-ghost ">
+        Return back to home
+      </Link>
     </div>
   );
 }
