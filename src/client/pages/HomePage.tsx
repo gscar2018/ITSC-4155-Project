@@ -1,10 +1,6 @@
-import "./App.css";
-
 import { useState } from "react";
 
-import reactLogo from "./assets/react.svg";
-
-function App() {
+function HomePage() {
   const [count, setCount] = useState(0);
   const [data, setData] = useState("Data has not loaded yet");
 
@@ -25,10 +21,12 @@ function App() {
           Hello Vite + React + TypeScript
         </h1>
         <p>{data}</p>
-        <button onClick={() => fetchData()}>Fetch data from the server</button>
+        <button className="btn btn-ghost" onClick={() => fetchData()}>
+          Fetch data from the server
+        </button>
       </div>
     </div>
   );
 }
 
-export default App;
+export default HomePage;
