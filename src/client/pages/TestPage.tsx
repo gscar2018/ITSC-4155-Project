@@ -8,7 +8,7 @@ function TestPage() {
    * @returns A Promise that resolves when the data is fetched and set in the component state
    */
   const fetchData = async (): Promise<void> => {
-    const response = await fetch("/hello");
+    const response = await fetch("/api/hello");
     const data = await response.text();
     return setData(data);
   };

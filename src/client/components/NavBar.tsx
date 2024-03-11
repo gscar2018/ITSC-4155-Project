@@ -1,13 +1,13 @@
-import { Link, Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 
 function NavBar() {
   return (
     <>
       <div className="navbar bg-base-100 gap-3">
         <div className="navbar-start">
-          <Link to={"/"} className="cursor-pointer">
+          <NavLink to={"/"} className="cursor-pointer">
             <h3>ITSC 4155</h3>
-          </Link>
+          </NavLink>
         </div>
         <div className="navbar-center lg:flex">
           <label className="input input-bordered flex items-center gap-2">
@@ -50,10 +50,10 @@ function NavBar() {
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <Link to={"/"}>Home</Link>
+                <NavLink to={"/"}>Home</NavLink>
               </li>
               <li>
-                <Link to={"/test"}>Test Page</Link>
+                <NavLink to={"/test"}>Test Page</NavLink>
               </li>
             </ul>
           </div>
