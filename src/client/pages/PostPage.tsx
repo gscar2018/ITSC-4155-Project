@@ -6,7 +6,7 @@ function PostPage() {
   return (
     <div className="container mx-auto py-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="flex flex-col space-y-2 items-center justify-center md:justify-start">
+        <div className="flex flex-col space-y-2 items-center justify-center md:justify-start md:items-start">
           <img
             src={post.imageUrl}
             alt={post.title}
