@@ -1,4 +1,5 @@
 import express from "express";
+import multer from 'multer';
 import ViteExpress from "vite-express";
 import router from "./apiRoutes.js";
 import { testSchema } from "./schemas/test.ts"; //for testing the image schema
@@ -8,6 +9,7 @@ import mongoose from "mongoose";
 const uri =
   "mongodb+srv://khoder23:ITSC-4155@cluster0.tcdyzkj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const app = express();
+const upload = multer({ dest: 'uploads/' });
 
 app.use("/api", router);
 
