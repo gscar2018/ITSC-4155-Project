@@ -3,6 +3,7 @@ import { Post } from "../../types";
 
 export const fetchPosts = async (): Promise<Post[]> => {
   const response = await fetch("/api/data");
+  console.log(response);
   if (!response.ok) throw new Error("Content not found");
   return response.json();
 };
