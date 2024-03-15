@@ -40,6 +40,8 @@ ViteExpress.listen(app, 3000, () =>
   console.log("Server is listening on http://localhost:3000/")
 );
 
+/* THIS BLOCK OF CODE IS PURELY FOR TESTING A SCHEMA, do not uncomment the code unless you wish to test the schema.  
+
 async function runSchemaTest() {
   try {
       await testSchema();
@@ -51,3 +53,4 @@ async function runSchemaTest() {
 
 // Call the function to run the schema test
 runSchemaTest();
+*/
