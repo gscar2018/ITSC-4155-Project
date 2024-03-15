@@ -40,7 +40,7 @@ async function run() {
 run().catch(console.dir);
 
 // adds dummy posts to database,
-//ONLY unccomment if no posts in database
+//ONLY uncomment if no posts in database
 // async function runSchemaTest() {
 //   try {
 //     await testSchema();
