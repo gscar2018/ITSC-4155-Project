@@ -1,5 +1,6 @@
 //functions to handle api logic
 import { PostModel } from "./schemas/image.ts";
+
 //function to get all posts
 export async function getPosts() {
   const posts = await PostModel.find();
