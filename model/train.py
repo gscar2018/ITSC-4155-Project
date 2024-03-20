@@ -3,15 +3,15 @@ import os
 import cv2
 import tensorflow as tf
 from PIL import Image
-# from keras.preprocessing.image import img_to_array, load_img
+from tensorflow.keras.preprocessing.image import img_to_array, load_img
 from sklearn.preprocessing import MultiLabelBinarizer
 from sklearn.model_selection import train_test_split
 import numpy as np
 
-from keras.models import Model, load_model
-from keras.layers import Dense, Activation
+from tensorflow.keras.models import Model, load_model
+from tensorflow.keras.layers import Dense, Input, Activation
 
-from huggingface_hub import from_pretrained_keras
+# from huggingface_hub import from_pretrained_keras
 
 # borrowed from the other script
 def preprocess_image(image):
@@ -113,4 +113,4 @@ def prepare_dataset(images, labels, batch_size):
 
 dataset = prepare_dataset(images, tags, 8)
 
-# final_model.fit(dataset, epochs=3)
+final_model.fit(dataset, epochs=3)
