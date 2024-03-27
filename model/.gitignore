@@ -1,3 +1,7 @@
 wd14_tagger_model/ 
-ECHO is on.
+
 data/  
+data-prepped/
+
+new-model/
+new-model-trained/
