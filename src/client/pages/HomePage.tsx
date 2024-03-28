@@ -13,7 +13,7 @@ function HomePage() {
       </div>
       <div className="gap-5 grid grid-cols-1  md:grid-cols-3 items-center justify-center">
         {/* loop to render card*/}
-        {data.map((post, index) => {
+        {data.slice().reverse().map((post, index) => {
           if (!post || !post.image) {
             console.warn(
               `Post at index ${index} is undefined or missing image.`

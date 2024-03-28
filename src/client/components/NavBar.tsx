@@ -2,11 +2,11 @@ import { NavLink, Outlet } from "react-router-dom";
 import { useState } from "react";
 
 function NavBar() {
-  const [isOpen, setIsOpen] = useState(false);
+/*   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
-  };
+  }; */
 
   return (
     <>
@@ -40,7 +40,7 @@ function NavBar() {
               tabIndex={0}
               role="button"
               className="btn btn-ghost mr-4"
-              onClick={toggleDropdown}
+              /* onClick={toggleDropdown} */
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -57,20 +57,20 @@ function NavBar() {
                 />
               </svg>
             </div>
-            {isOpen && (
+            {/* isOpen && ( */
               <ul className="menu menu-sm dropdown-content dropdown-center mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                 <li>
-                  <NavLink to={"/"} onClick={toggleDropdown}>
+                  <NavLink to={"/"} /* onClick={toggleDropdown} */>
                     Home
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to={"/test"} onClick={toggleDropdown}>
+                  <NavLink to={"/test"} /* onClick={toggleDropdown} */>
                     Test Page
                   </NavLink>
                 </li>
               </ul>
-            )}
+            /* ) */}
           </div>
         </div>
       </div>
