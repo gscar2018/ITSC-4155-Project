@@ -3,12 +3,21 @@ import { Post } from "../../types.js";
 
 function PostPage() {
   const post = useLoaderData() as Post;
+  //creating a function to append post.image.url to the end of any url
+  function createImageUrl() {
+    //grab the current url https://{name}.com/
+    const currentUrl = window.location.href;
+    //since there should be 3 slashes by now, we delete everything after the 3rd /
+    const baseUrl = currentUrl.slice(0, currentUrl.indexOf("/", 8) + 1);
+    return baseUrl + post.image.url;
+  }
+
   return (
     <div className="container mx-auto py-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="flex flex-col space-y-2 items-center justify-center md:justify-start md:items-start">
           <img
-            src={post.image.url}
+            src={createImageUrl()}
             alt={post.image.caption}
             className="w-auto h-auto object-cover rounded-lg"
           />

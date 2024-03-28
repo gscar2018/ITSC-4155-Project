@@ -1,12 +1,19 @@
 import { NavLink, Outlet } from "react-router-dom";
+import { useState } from "react";
 
 function NavBar() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <>
-      <div className="navbar bg-base-100 gap-3">
+      <div className="navbar bg-base-100 gap-3 bg-zinc-800 shadow-md  px-4 py-2">
         <div className="navbar-start">
           <NavLink to={"/"} className="cursor-pointer">
-            <h3>ITSC 4155</h3>
+            <h3 className="text-slate-50">ITSC 4155</h3>
           </NavLink>
         </div>
         <div className="navbar-center lg:flex">
@@ -27,9 +34,14 @@ function NavBar() {
           </label>
         </div>
         <div className="navbar-end">
-          <button className="btn">Button</button>
-          <div className="dropdown dropdown-left">
-            <div tabIndex={0} role="button" className="btn btn-ghost">
+          <button className="btn mr-4">Button</button>
+          <div id="dropdown" className="bg-zinc-50 dropdown dropdown-left">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost mr-4"
+              onClick={toggleDropdown}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
@@ -45,17 +57,20 @@ function NavBar() {
                 />
               </svg>
             </div>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
-            >
-              <li>
-                <NavLink to={"/"}>Home</NavLink>
-              </li>
-              <li>
-                <NavLink to={"/test"}>Test Page</NavLink>
-              </li>
-            </ul>
+            {isOpen && (
+              <ul className="menu menu-sm dropdown-content dropdown-center mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"> {/* Change dropdown-left to dropdown-center */}
+                <li>
+                  <NavLink to={"/"} onClick={toggleDropdown}>
+                    Home
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to={"/test"} onClick={toggleDropdown}>
+                    Test Page
+                  </NavLink>
+                </li>
+              </ul>
+            )}
           </div>
         </div>
       </div>

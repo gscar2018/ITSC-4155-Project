@@ -1,13 +1,25 @@
 import { useLoaderData } from "react-router-dom";
 import { Post } from "../../types";
+import ImageUpload from "../components/ImageUpload";
+import { useState } from "react";
 
 function HomePage() {
   const data = useLoaderData() as Post[];
+
   return (
     <div className="p-5">
+      <div className="flex justify-center my-5">
+        <ImageUpload />
+      </div>
       <div className="gap-5 grid grid-cols-1  md:grid-cols-3 items-center justify-center">
         {/* loop to render card*/}
-        {data.map((post) => {
+        {data.map((post, index) => {
+          if (!post || !post.image) {
+            console.warn(
+              `Post at index ${index} is undefined or missing image.`
+            );
+            return null; // Or display a placeholder component/message.
+          }
           return (
             <div
               className="container flex flex-col items-center"

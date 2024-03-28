@@ -1,4 +1,5 @@
 import express from "express";
+import multer from "multer";
 import ViteExpress from "vite-express";
 import router from "./apiRoutes.js";
 import { testSchema } from "./schemas/test.ts"; //for testing the image schema
