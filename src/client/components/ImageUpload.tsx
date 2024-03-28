@@ -45,20 +45,23 @@ function ImageUpload() {
   };
 
   return (
-    <div className="join">
+    <div className="join" style={{ backgroundColor: '#000', padding: '20px', borderRadius: '10px', display: 'flex', alignItems: 'center' }}>
       <input
-        className="join-item file-input file-input-bordered file-input-primary  w-full max-w-xs"
+        className="join-item file-input file-input-bordered file-input-primary w-full max-w-xs"
         type="file"
         onChange={handleFileChange}
+        style={{ marginRight: '10px', padding: '10px', borderRadius: '5px', border: 'none', backgroundColor: '#333', color: '#fff' }}
       />
       <button
         className="join-item rounded-r-lg btn bg-primary text-white font-bold py-2 px-4 border rounded"
         onClick={handleUpload}
+        style={{ padding: '10px', borderRadius: '5px', border: 'none', backgroundColor: '#4CAF50', color: '#fff', cursor: 'pointer' }}
       >
         Upload Image
       </button>
     </div>
   );
+  
 }
 
 export default ImageUpload;

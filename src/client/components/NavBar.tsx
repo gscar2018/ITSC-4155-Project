@@ -58,7 +58,7 @@ function NavBar() {
               </svg>
             </div>
             {isOpen && (
-              <ul className="menu menu-sm dropdown-content dropdown-center mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"> {/* Change dropdown-left to dropdown-center */}
+              <ul className="menu menu-sm dropdown-content dropdown-center mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                 <li>
                   <NavLink to={"/"} onClick={toggleDropdown}>
                     Home
