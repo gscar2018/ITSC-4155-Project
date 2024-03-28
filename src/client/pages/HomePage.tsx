@@ -1,15 +1,23 @@
 import { useLoaderData } from "react-router-dom";
 import { Post } from "../../types";
 import ImageUpload from "../components/ImageUpload";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function HomePage() {
+  const [refreshPage, setRefreshPage] = useState(false); // State to trigger refresh
   const data = useLoaderData() as Post[];
+
+  useEffect(() => {
+    // This effect will run whenever refreshPage state changes
+    if (refreshPage) {
+      window.location.reload(); // Reload the page
+    }
+  }, [refreshPage]);
 
   return (
     <div className="p-5">
       <div className="flex justify-center my-5">
-        <ImageUpload />
+        <ImageUpload onUploadSuccess={() => setRefreshPage(true)} /> {/* Pass a function to trigger refresh */}
       </div>
       <div className="gap-5 grid grid-cols-1  md:grid-cols-3 items-center justify-center">
         {/* loop to render card*/}

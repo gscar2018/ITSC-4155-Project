@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
-function ImageUpload() {
+function ImageUpload({ onUploadSuccess }: { onUploadSuccess: () => void }) {
   // Explicitly define the type of state as `File | null`
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
@@ -35,12 +35,13 @@ function ImageUpload() {
       if (response.ok) {
         alert("Image uploaded successfully");
         setSelectedFile(null); // Optionally, clear the selected file here
+        onUploadSuccess(); // Trigger refresh after successful upload
       } else {
-        alert("Upload failed 1 ");
+        alert("Upload failed 1");
       }
     } catch (error) {
       console.error("Error during upload:", error);
-      alert("Upload failed 2 ");
+      alert("Upload failed 2");
     }
   };
 
@@ -61,7 +62,6 @@ function ImageUpload() {
       </button>
     </div>
   );
-  
 }
 
 export default ImageUpload;
