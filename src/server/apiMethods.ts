@@ -1,5 +1,5 @@
 //functions to handle api logic
-import { PostModel } from "./schemas/image.ts";
+import { PostModel } from "./schemas/Post.ts";
 
 //function to get all posts
 export async function getPosts() {

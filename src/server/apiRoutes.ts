@@ -1,7 +1,7 @@
 import express from "express";
 import { getPosts, getPostById } from "./apiMethods.ts";
 import { Post } from "../types.ts";
-import { PostModel } from "./schemas/image.ts";
+import { PostModel } from "./schemas/Post.ts";
 import multer from "multer";
 
 //setting up mutler
