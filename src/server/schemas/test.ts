@@ -1,6 +1,6 @@
 // this file is purely to test the functionality of the schemas
 import mongoose from "mongoose";
-import { PostModel } from "./image.ts";
+import { PostModel } from "./Post.ts";
 export async function testSchema() {
   try {
     // Connect to MongoDB

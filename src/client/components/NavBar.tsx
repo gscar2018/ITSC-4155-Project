@@ -2,7 +2,7 @@ import { NavLink, Outlet } from "react-router-dom";
 import { useState } from "react";
 
 function NavBar() {
-/*   const [isOpen, setIsOpen] = useState(false);
+  /*   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -10,14 +10,14 @@ function NavBar() {
 
   return (
     <>
-      <div className="navbar bg-base-100 gap-3 bg-zinc-800 shadow-md  px-4 py-2">
+      <div className="navbar bg-neutral px-4 py-2">
         <div className="navbar-start">
           <NavLink to={"/"} className="cursor-pointer">
-            <h3 className="text-slate-50">ITSC 4155</h3>
+            <h3 className="text-neutral-content hover:">ITSC 4155</h3>
           </NavLink>
         </div>
         <div className="navbar-center lg:flex">
-          <label className="input input-bordered flex items-center gap-2">
+          <label className="input input-bordered input-sm md:input-md flex items-center gap-2">
             <input type="text" className="grow" placeholder="Search" />
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -34,12 +34,14 @@ function NavBar() {
           </label>
         </div>
         <div className="navbar-end">
-          <button className="btn mr-4">Button</button>
-          <div id="dropdown" className="bg-zinc-50 dropdown dropdown-left">
+          <button className="btn btn-sm btn-outline text-neutral-content mr-4 mx-5">
+            Login / Sign-in
+          </button>
+          <div id="dropdown" className=" dropdown dropdown-left">
             <div
               tabIndex={0}
               role="button"
-              className="btn btn-ghost mr-4"
+              className="text-neutral-content btn btn-ghost "
               /* onClick={toggleDropdown} */
             >
               <svg
@@ -57,8 +59,9 @@ function NavBar() {
                 />
               </svg>
             </div>
-            {/* isOpen && ( */
-              <ul className="menu menu-sm dropdown-content dropdown-center mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+            {
+              /* isOpen && ( */
+              <ul className="menu menu-sm px-1 dropdown-content dropdown-center mt-3 z-[1] p-2  shadow-lg bg-base-100 rounded-box w-52">
                 <li>
                   <NavLink to={"/"} /* onClick={toggleDropdown} */>
                     Home
@@ -69,8 +72,14 @@ function NavBar() {
                     Test Page
                   </NavLink>
                 </li>
+                <li>
+                  <NavLink to={"/upload"} /* onClick={toggleDropdown} */>
+                    Upload
+                  </NavLink>
+                </li>
               </ul>
-            /* ) */}
+              /* ) */
+            }
           </div>
         </div>
       </div>
