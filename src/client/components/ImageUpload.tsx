@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 
-function ImageUpload({ onUploadSuccess }: { onUploadSuccess: () => void }) {
+function ImageUpload() {
   // Explicitly define the type of state as `File | null`
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -37,36 +37,6 @@ function ImageUpload({ onUploadSuccess }: { onUploadSuccess: () => void }) {
     }
   };
 
-  // Handles the upload action
-  const handleUpload = async () => {
-    if (!selectedFile) {
-      alert("Please select a file first.");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("image", selectedFile);
-
-    try {
-      const response = await fetch("/api/upload", {
-        // Use your actual upload URL here
-        method: "POST",
-        body: formData,
-      });
-
-      if (response.ok) {
-        alert("Image uploaded successfully");
-        setSelectedFile(null); // Optionally, clear the selected file here
-        onUploadSuccess(); // Trigger refresh after successful upload
-      } else {
-        alert("Upload failed 1");
-      }
-    } catch (error) {
-      console.error("Error during upload:", error);
-      alert("Upload failed 2");
-    }
-  };
-
   return (
     <div className="join join-vertical">
       <div
@@ -80,6 +50,7 @@ function ImageUpload({ onUploadSuccess }: { onUploadSuccess: () => void }) {
           type="file"
           ref={fileInputRef}
           onChange={handleFileChange}
+          required
         />
         <div className="flex flex-col">
           <p className="text-lg text-accent-content">
@@ -89,12 +60,6 @@ function ImageUpload({ onUploadSuccess }: { onUploadSuccess: () => void }) {
           <p className="text-sm font-light italic">PNG JPG or SVG</p>
         </div>
       </div>
-      <button
-        className="join-item rounded-r-lg btn btn-accent text-accent-content font-bold py-2 px-4 border rounded"
-        onClick={handleUpload}
-      >
-        Upload Image
-      </button>
     </div>
   );
 }

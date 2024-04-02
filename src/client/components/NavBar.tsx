@@ -34,7 +34,7 @@ function NavBar() {
           </label>
         </div>
         <div className="navbar-end">
-          <button className="btn btn-sm btn-outline text-neutral-content mr-4">
+          <button className="btn btn-sm btn-outline text-neutral-content mr-4 mx-5">
             Login / Sign-in
           </button>
           <div id="dropdown" className=" dropdown dropdown-left">

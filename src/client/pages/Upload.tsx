@@ -1,23 +1,44 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import ImageUpload from "../components/ImageUpload";
-
+import { createPost } from "../api/apiCalls";
 function UploadPage() {
-  const [refreshPage, setRefreshPage] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [tags, setTags] = useState("");
 
-  useEffect(() => {
-    if (refreshPage) {
-      window.location.reload();
-    }
-  }, [refreshPage]);
+  //   useEffect(() => {
+  //     if (refreshPage) {
+  //       window.location.reload();
+  //     }
+  //   }, [refreshPage]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     // Send form data to the server using an API call
-    // ...
-    setRefreshPage(true);
+    const formData = new FormData();
+    //caption will be title
+    formData.append("title", title);
+    formData.append("tags", tags);
+
+    const file = document.querySelector(
+      'input[type="file"]'
+    ) as HTMLInputElement;
+    if (file.files && file.files.length > 0) {
+      formData.append("image", file.files[0]);
+      formData.append("caption", file.files[0].name);
+    } else {
+      alert("Please select an image to upload");
+      throw new Error("Please select an image to upload");
+    }
+    try {
+      const res: Response = await createPost(formData);
+      console.log(res);
+      //if successful, redirect to homepage
+      alert("Post created successfully");
+      window.location.href = "/";
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -38,20 +59,9 @@ function UploadPage() {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="content" className="label">
-            <span className="label-text">Content:</span>
-          </label>
-          <textarea
-            id="content"
-            className="textarea textarea-bordered w-full"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            required
-          ></textarea>
-        </div>
-        <div className="mb-4">
           <label htmlFor="tags" className="label">
             <span className="label-text">Tags:</span>
+            <span className="label-text-alt">Seperate tags with space</span>
           </label>
           <input
             type="text"
@@ -62,7 +72,7 @@ function UploadPage() {
             required
           />
         </div>
-        <ImageUpload onUploadSuccess={() => setRefreshPage(true)} />
+        <ImageUpload />
         <button type="submit" className=" py-5 btn btn-primary rounded-md">
           Upload
         </button>
