@@ -1,4 +1,4 @@
-import { LoaderFunctionArgs } from "react-router-dom";
+import { LoaderFunctionArgs, Params } from "react-router-dom";
 import { Post } from "../../types";
 
 export const fetchPosts = async (): Promise<Post[]> => {
@@ -7,10 +7,8 @@ export const fetchPosts = async (): Promise<Post[]> => {
   if (!response.ok) throw new Error("Content not found");
   return response.json();
 };
-export const fetchPostSlug = async ({
-  params,
-}: LoaderFunctionArgs): Promise<Post> => {
-  const response = await fetch(`/api/data/${params.id}`);
+export const fetchPostSlug = async (id: string): Promise<Post> => {
+  const response = await fetch(`/api/data/${id}`);
   if (!response.ok) throw new Error("Content not found");
   return response.json();
 };

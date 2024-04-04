@@ -4,6 +4,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import {
   createBrowserRouter,
+  createMemoryRouter,
   createRoutesFromElements,
   Route,
   RouterProvider,
@@ -13,17 +14,15 @@ import TestPage from "./pages/TestPage";
 import ErrorPage from "./pages/ErrorPage";
 import NavBar from "./components/NavBar";
 import PostPage from "./pages/PostPage";
-import { fetchPosts, fetchPostSlug } from "./api/apiCalls";
 import UploadPage from "./pages/Upload";
 
 const routes = createRoutesFromElements(
   <Route path="/" element={<NavBar />}>
-    <Route element={<HomePage />} path="/" loader={fetchPosts} />
+    <Route element={<HomePage />} path="/" />
     <Route element={<TestPage />} path="/test" />
     <Route
       element={<PostPage />}
       path="/post/:id"
-      loader={fetchPostSlug}
       errorElement={<ErrorPage />}
     />
     <Route element={<UploadPage />} path="/upload" />
@@ -32,8 +31,8 @@ const routes = createRoutesFromElements(
 );
 
 const router = createBrowserRouter(routes);
-
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+ReactDOM.hydrateRoot(
+  document.getElementById("root") as HTMLElement,
   <React.StrictMode>
     <RouterProvider router={router} />
   </React.StrictMode>

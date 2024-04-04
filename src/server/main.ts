@@ -2,10 +2,20 @@ import express from "express";
 import ViteExpress from "vite-express";
 import router from "./apiRoutes.js";
 import databaseConnect from "./database.ts";
+import compression from "compression";
+import cacheControl from "express-cache-controller";
+
 const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+ViteExpress.config({ mode: "development" });
+const timeToLive = 1000 * 60 * 5; // 5 minutes
+
+//middleware
 app.use("/uploads", express.static("uploads"));
+app.use(ViteExpress.static());
+app.use(cacheControl({ maxAge: timeToLive }));
+app.use(express.json());
+app.use(compression());
+app.use(express.urlencoded({ extended: true }));
 app.use("/api", router);
 
 //refactoring database connection to use mongoose

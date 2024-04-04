@@ -1,28 +1,43 @@
-import { useLoaderData } from "react-router-dom";
+import { Icon } from "@iconify/react/dist/iconify.js";
 import { Post } from "../../types";
-import ImageUpload from "../components/ImageUpload";
+import { fetchPosts } from "../api/apiCalls";
 import { useState, useEffect } from "react";
 
 function HomePage() {
-  const [refreshPage, setRefreshPage] = useState(false); // State to trigger refresh
-  const data = useLoaderData() as Post[];
+  //fetchPosts does the whole api call, we only need to call it once
 
-  //   useEffect(() => {
-  //     // This effect will run whenever refreshPage state changes
-  //     if (refreshPage) {
-  //       window.location.reload(); // Reload the page
-  //     }
-  //   }, [refreshPage]);
+  const [posts, setPosts] = useState<Post[] | undefined>(undefined);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  useEffect(() => {
+    if (!posts) {
+      fetchPosts().then((data) => {
+        setPosts(data);
+      });
+    }
+  }, [posts]);
 
+  if (!posts) {
+    // Handle the case when data is undefined
+    return <div></div>;
+  }
   return (
     <div className="p-5">
+      <div className="px-10 p-5 flex flex-row justify-center items-center">
+        <label className="input input-bordered  w-auto justify-center items-center">
+          <input type="text" className="grow" placeholder="Search" />
+          <button className="btn btn-ghost">
+            <Icon className="text-3xl" icon="mdi:magnify" />
+          </button>
+        </label>
+      </div>
       <div className="flex justify-center my-5">
         {/* <ImageUpload onUploadSuccess={() => setRefreshPage(true)} />{" "} */}
         {/* Pass a function to trigger refresh */}
       </div>
       <div className="gap-5 grid grid-cols-1  md:grid-cols-3 items-center justify-center">
         {/* loop to render card*/}
-        {data
+        {posts
           .slice()
           .reverse()
           .map((post, index) => {

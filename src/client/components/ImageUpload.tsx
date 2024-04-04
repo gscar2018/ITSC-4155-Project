@@ -1,3 +1,4 @@
+import { Icon } from "@iconify/react/dist/iconify.js";
 import React, { useRef, useState } from "react";
 
 function ImageUpload() {
@@ -52,7 +53,8 @@ function ImageUpload() {
           onChange={handleFileChange}
           required
         />
-        <div className="flex flex-col">
+        <div className="flex flex-col items-center justify-center">
+          <Icon icon="mdi:upload" className="text-6xl" />
           <p className="text-lg text-accent-content">
             Click to upload or drag & Drop
           </p>

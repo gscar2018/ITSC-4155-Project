@@ -1,10 +1,38 @@
-import { useLoaderData } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { Post } from "../../types.js";
+import { useParams } from "react-router-dom";
+import { fetchPostSlug } from "../api/apiCalls.js";
 
 function PostPage() {
-  const post = useLoaderData() as Post;
+  /**
+     * export const fetchPostSlug = async ({
+  params,
+}: LoaderFunctionArgs): Promise<Post> => {
+  const response = await fetch(`/api/data/${params.id}`);
+  if (!response.ok) throw new Error("Content not found");
+  return response.json();
+};
+     */
+  const { id } = useParams<{ id: string }>();
+  const [post, setPost] = useState<Post | null>(null);
+
+  useEffect(() => {
+    if (id) {
+      fetchPostSlug(id).then((data) => {
+        setPost(data);
+      });
+    }
+  }, [id]);
+
+  if (!post) {
+    return <div></div>;
+  }
+
   //creating a function to append post.image.url to the end of any url
   function createImageUrl() {
+    if (!post) {
+      throw new Error("Post is null");
+    }
     //grab the current url https://{name}.com/
     const currentUrl = window.location.href;
     //since there should be 3 slashes by now, we delete everything after the 3rd /
@@ -19,7 +47,7 @@ function PostPage() {
           <img
             src={createImageUrl()}
             alt={post.image.caption}
-            className="w-auto h-auto object-cover rounded-lg"
+            className="max-w-full h-80 md:h-96 object-cover rounded-lg"
           />
           <h1>{post.title}</h1>
         </div>

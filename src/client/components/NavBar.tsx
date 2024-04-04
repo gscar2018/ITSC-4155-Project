@@ -1,39 +1,17 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { useState } from "react";
+import { Icon } from "@iconify/react";
 
 function NavBar() {
-  /*   const [isOpen, setIsOpen] = useState(false);
-
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  }; */
-
   return (
     <>
-      <div className="navbar bg-neutral px-4 py-2">
+      <div className="z-10 navbar bg-neutral px-4 py-2 flex-row justify-between items-center w-full">
         <div className="navbar-start">
           <NavLink to={"/"} className="cursor-pointer">
             <h3 className="text-neutral-content hover:">ITSC 4155</h3>
           </NavLink>
         </div>
-        <div className="navbar-center lg:flex">
-          <label className="input input-bordered input-sm md:input-md flex items-center gap-2">
-            <input type="text" className="grow" placeholder="Search" />
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              className="w-4 h-4 opacity-70"
-            >
-              <path
-                fillRule="evenodd"
-                d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </label>
-        </div>
-        <div className="navbar-end">
+        <div className="navbar-end mt-2 md:mt-0 flex justify-end space-x-4">
           <button className="btn btn-sm btn-outline text-neutral-content mr-4 mx-5">
             Login / Sign-in
           </button>
