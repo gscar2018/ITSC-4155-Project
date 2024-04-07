@@ -40,7 +40,7 @@ for file_name in os.listdir('data-prepped'):
         image = Image.open(f'data-prepped/{file_name}')
         if image.mode != "RGB":
             image = image.convert("RGB")
-        # image = preprocess_image(image)
+
         images.append(np.array(image).astype(np.float32))
 
         tags_path = 'data-prepped/' + file_name.split('.')[0] + '.txt'
@@ -52,6 +52,10 @@ for file_name in os.listdir('data-prepped'):
 images = np.array(images)
 tags = np.array(tags)
 
+training_images = images[:int(len(images) * 0.8)]
+training_tags = tags[:int(len(tags) * 0.8)]
+validation_images = images[int(len(images) * 0.8):]
+validation_tags = tags[int(len(tags) * 0.8):]
 
 def prepare_dataset(images, labels, batch_size):
     dataset = tf.data.Dataset.from_tensor_slices((images, labels))
@@ -59,8 +63,15 @@ def prepare_dataset(images, labels, batch_size):
     return dataset
 
 
-dataset = prepare_dataset(images, tags, 8)
+dataset = prepare_dataset(training_images, training_tags, 8)
+validation_set = prepare_dataset(validation_images, validation_tags, 8)
 
-model.fit(dataset, epochs=30)
+# freeze convolutional layers
+for layer in model.layers[:-2]:
+    layer.trainable = False
+
+model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+
+model.fit(dataset, epochs=30, validation_data=validation_set)
 
 model.save('./new-model-trained', save_format='tf')
