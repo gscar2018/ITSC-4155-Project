@@ -1,6 +1,7 @@
 import express from "express";
 import ViteExpress from "vite-express";
 import router from "./apiRoutes.js";
+import router from "./apiRoutes.js";
 import databaseConnect from "./database.ts";
 <<<<<<< HEAD
 import compression from "compression";
