@@ -15,6 +15,8 @@ import NavBar from "./components/NavBar";
 import PostPage from "./pages/PostPage";
 import { fetchPosts, fetchPostSlug } from "./api/apiCalls";
 import UploadPage from "./pages/Upload";
+import SignupPage from "./pages/SignupPage";
+import LoginPage from "./pages/LoginPage";
 
 const routes = createRoutesFromElements(
   <Route path="/" element={<NavBar />}>
@@ -27,6 +29,8 @@ const routes = createRoutesFromElements(
       errorElement={<ErrorPage />}
     />
     <Route element={<UploadPage />} path="/upload" />
+    <Route element={<SignupPage />} path="/signup" />
+    <Route element={<LoginPage />} path="/login" />
     <Route element={<ErrorPage />} path="*" />
   </Route>
 );
