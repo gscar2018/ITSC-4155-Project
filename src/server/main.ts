@@ -2,13 +2,17 @@ import express from "express";
 import ViteExpress from "vite-express";
 import router from "./apiRoutes.js";
 import databaseConnect from "./database.ts";
+<<<<<<< HEAD
 import compression from "compression";
 import cacheControl from "express-cache-controller";
 
+=======
+>>>>>>> parent of f17a602 (added user signup and login)
 const app = express();
 ViteExpress.config({ mode: "development" });
 const timeToLive = 1000 * 60 * 5; // 5 minutes
 
+<<<<<<< HEAD
 //middleware
 app.use("/uploads", express.static("uploads"));
 app.use(ViteExpress.static());
@@ -18,6 +22,8 @@ app.use(compression());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api", router);
 
+=======
+>>>>>>> parent of f17a602 (added user signup and login)
 //refactoring database connection to use mongoose
 databaseConnect();
 
