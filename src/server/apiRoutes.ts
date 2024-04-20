@@ -2,11 +2,11 @@ import express from "express";
 import { getPosts, getPostById } from "./apiMethods.ts";
 import { Post } from "../types.ts";
 import { imageUploadHandler, createPost } from "./apiMethods.ts";
-let router = express.Router();
+const router = express.Router();
 
 //test api route for TestPage.tsx in client
 router.get("/hello", (_, res) => {
-  return res.send("Data successfully fetched from server!");
+	return res.send("Data successfully fetched from server!");
 });
 
 //api route for HomePage.tsx in client
