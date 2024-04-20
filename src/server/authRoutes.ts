@@ -15,7 +15,9 @@ router.post("/logout", logoutHandler);
 //api route to check user status.
 router.get("/loginStatus", (req: Request, res: Response) => {
 	if (req.session.userId) {
-		return res.status(200).json({ isLoggedIn: true, userId: req.session.id });
+		return res
+			.status(200)
+			.json({ isLoggedIn: true, userId: req.session.userId });
 	}
 	return res.status(200).json({ isLoggedIn: false });
 });
