@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
+import { AuthContext } from "../api/auth/authContext";
 
 function LoginPage() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState("");
 	const [loginSuccess, setLoginSuccess] = useState(false); // State to track successful login
-
+	const [_, setIsLoggedIn] = useContext(AuthContext);
 	const handleLogin = async () => {
 		try {
 			const response = await axios.post(
@@ -16,6 +17,7 @@ function LoginPage() {
 			);
 			console.log(response.data);
 			setLoginSuccess(true); // Set login success state
+			setIsLoggedIn(true);
 		} catch (error) {
 			console.error("Login failed:", error);
 			setError("Login failed. Please try again."); // Set error message
@@ -29,7 +31,7 @@ function LoginPage() {
 				<h2 className="text-2xl font-bold mb-4">Login Successful!</h2>
 				<p>
 					You have successfully logged in. You may go to{" "}
-					<NavLink to="/" className="text-blue-500">
+					<NavLink to="/" className="text-info">
 						homepage
 					</NavLink>{" "}
 					now{" "}
