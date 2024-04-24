@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../api/auth/authContext";
 const NavBar = () => {
-	const { isLoggedIn, logout } = useAuth();
+	const { isLoggedIn, logout, userId } = useAuth();
 
 	const handleLogout = async () => {
 		try {
@@ -100,11 +100,23 @@ const NavBar = () => {
 									Test Page
 								</NavLink>
 							</li>
-							<li>
-								<NavLink to="/upload" className="text-base-content">
-									Upload
-								</NavLink>
-							</li>
+							{isLoggedIn && (
+								<div>
+									<li>
+										<NavLink to="/upload" className="text-base-content">
+											Upload
+										</NavLink>
+									</li>
+									<li>
+										<NavLink
+											to={`/account/${userId}`}
+											className="text-base-content"
+										>
+											Upload
+										</NavLink>
+									</li>
+								</div>
+							)}
 						</ul>
 					</div>
 				</div>

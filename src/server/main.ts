@@ -1,8 +1,9 @@
 import express from "express";
 import ViteExpress from "vite-express";
 import router from "./apiRoutes.ts";
-import databaseConnect from "./database.ts";
 import authRoutes from "./authRoutes.ts";
+import userRoutes from "./userRoutes.ts";
+import databaseConnect from "./database.ts";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 
@@ -32,6 +33,7 @@ app.use("/api", router);
 
 //mount signup and login routes under /api/auth
 app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
 
 //refactoring database connection to use mongoose
 databaseConnect();

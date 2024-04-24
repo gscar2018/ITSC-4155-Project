@@ -31,11 +31,12 @@ const routes = createRoutesFromElements(
 			loader={fetchPostSlug}
 			errorElement={<ErrorPage />}
 		/>
-		<Route element={<UploadPage />} path="/upload" />
 		<Route element={<SignupPage />} path="/signup" />
 		<Route element={<LoginPage />} path="/login" />
+
 		<Route element={<PrivateRoute />}>
-			<Route element={<UserAccount />} path="/account" />
+			<Route element={<UploadPage />} path="/upload" />
+			<Route element={<UserAccount />} path="/account/:userId" />
 		</Route>
 		<Route element={<ErrorPage />} path="*" />
 	</Route>,

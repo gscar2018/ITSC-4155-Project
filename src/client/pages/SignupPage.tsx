@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../api/auth/authContext";
 
 function SignupPage() {
+	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState("");
@@ -13,7 +14,8 @@ function SignupPage() {
 	const handleSignup = async (e: React.FormEvent) => {
 		e.preventDefault();
 		try {
-			await signup(email, password);
+			console.log(email, password, username);
+			await signup(email, password, username);
 			navigate("/");
 		} catch (error) {
 			console.error("Signup failed:", error);
@@ -44,6 +46,7 @@ function SignupPage() {
 					value={email}
 					onChange={(e) => setEmail(e.target.value)}
 					className="border rounded px-3 py-2 mb-3"
+					required
 				/>
 				<br />
 				<input
@@ -52,8 +55,17 @@ function SignupPage() {
 					value={password}
 					onChange={(e) => setPassword(e.target.value)}
 					className="border rounded px-3 py-2 mb-3"
+					required
 				/>
 				<br />
+				<input
+					type="text"
+					placeholder="Username"
+					value={username}
+					onChange={(e) => setUsername(e.target.value)}
+					className="border rounded px-3 py-2 mb-3"
+					required
+				/>
 				<button
 					type="submit"
 					className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"

@@ -5,7 +5,7 @@ import { hash } from "bcrypt";
 
 export const signupHandler = async (req: Request, res: Response) => {
 	try {
-		const { email, password } = req.body;
+		const { username, email, password } = req.body;
 		const existingUser = await UserModel.findOne({ email });
 
 		if (existingUser) {
@@ -13,12 +13,16 @@ export const signupHandler = async (req: Request, res: Response) => {
 		}
 		const passwordHashed = await hash(password, 10);
 
-		const newUser = await UserModel.create({ email, password: passwordHashed });
+		const newUser = await UserModel.create({
+			email,
+			password: passwordHashed,
+			username,
+		});
 		await newUser.save();
 
 		req.session.userId = newUser._id;
 
-		res.status(201).json({ message: "Signup successful" });
+		res.status(201).json({ message: "Signup successful", userId: newUser._id });
 	} catch (error) {
 		console.error("Signup error:", error);
 		res.status(500).json({ message: "Internal server error" });

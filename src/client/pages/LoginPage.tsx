@@ -4,6 +4,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../api/auth/authContext";
 
 function LoginPage() {
+	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState("");
@@ -60,6 +61,7 @@ function LoginPage() {
 					className="border rounded px-3 py-2 mb-3"
 				/>
 				<br />
+
 				<button
 					type="submit"
 					className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"

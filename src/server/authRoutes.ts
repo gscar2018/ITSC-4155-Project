@@ -3,7 +3,6 @@ import { signupHandler } from "../client/api/auth/signup.ts";
 import { loginHandler } from "../client/api/auth/login.ts";
 import { logoutHandler } from "../client/api/auth/logout.ts";
 import type { Request, Response } from "express";
-import bcrypt from "bcrypt";
 
 const router = express.Router();
 
@@ -14,7 +13,6 @@ router.post("/signup", signupHandler);
 router.post("/login", loginHandler);
 router.post("/logout", logoutHandler);
 
-//api route to check user status.
 //api route to check user status.
 router.get("/loginStatus", (req: Request, res: Response) => {
 	try {

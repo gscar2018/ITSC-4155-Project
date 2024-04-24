@@ -1,22 +1,17 @@
 import { useLoaderData } from "react-router-dom";
 import type { Post } from "../../types";
+import { useAuth } from "../api/auth/authContext";
 
 function HomePage() {
 	const data = useLoaderData() as Post[];
-
-	//   useEffect(() => {
-	//     // This effect will run whenever refreshPage state changes
-	//     if (refreshPage) {
-	//       window.location.reload(); // Reload the page
-	//     }
-	//   }, [refreshPage]);
-
+	//getUserId if user is logged in
+	const { userId } = useAuth();
 	return (
 		<div className="p-5">
 			<div className="flex justify-center my-5">
 				{/* <ImageUpload onUploadSuccess={() => setRefreshPage(true)} />{" "} */}
 				{/* Pass a function to trigger refresh */}
-				<a href="/account">Account test</a>
+				<a href={`/account/${userId}`}>Account test</a>
 			</div>
 			<div className="gap-5 grid grid-cols-1  md:grid-cols-3 items-center justify-center">
 				{/* loop to render card*/}
