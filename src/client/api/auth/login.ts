@@ -1,23 +1,30 @@
 import express from "express";
 import type { Request, Response } from "express";
 import UserModel, { UserDocument } from "../../../server/schemas/User.ts";
+import { compare } from "bcrypt";
 
 export const loginHandler = async (req: Request, res: Response) => {
-	const { email, password } = req.body;
-	console.log("Received login request:", email, password);
-
 	try {
+		const { email, password } = req.body;
+		console.log("Received login request:", email, password);
+
 		const user = await UserModel.findOne({ email });
 
-		if (!user || user.password !== password) {
+		if (!user) {
+			return res.status(401).json({ message: "Invalid email or password" });
+		}
+		const isMatch = await compare(password, user.password);
+
+		if (!isMatch) {
 			return res.status(401).json({ message: "Invalid email or password" });
 		}
 
 		// Store the user ID in the session
 		req.session.userId = user._id;
-		res.status(200).json({ message: "Login successful", user });
+
+		res.status(200).json({ message: "Login successful" });
 	} catch (error) {
 		console.error("Login error:", error);
-		res.status(500).json({ message: "Internal server error" });
+		return res.status(500).json({ message: "Internal server error" });
 	}
 };

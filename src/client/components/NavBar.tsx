@@ -2,30 +2,18 @@ import { NavLink, Outlet } from "react-router-dom";
 import { checkLogin } from "../api/apiCalls";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { AuthContext } from "../api/auth/authContext";
+import { useAuth } from "../api/auth/authContext";
 const NavBar = () => {
-	const [isLoggedIn, setIsLoggedIn] = useContext(AuthContext);
+	const { isLoggedIn, logout } = useAuth();
 
 	const handleLogout = async () => {
 		try {
-			await axios.post("/api/auth/logout");
-			setIsLoggedIn(false);
+			await logout();
 		} catch (error) {
 			console.error("Logout failed:", error);
 		}
 	};
 
-	useEffect(() => {
-		const checkLoginStatus = async () => {
-			try {
-				const isLoggedIn = await checkLogin();
-				setIsLoggedIn(isLoggedIn);
-			} catch (error) {
-				console.error("Error checking login status:", error);
-			}
-		};
-		checkLoginStatus();
-	}, [setIsLoggedIn]);
 	return (
 		<>
 			<div className="navbar bg-neutral px-4 py-2 w-full">
