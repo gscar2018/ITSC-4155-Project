@@ -16,10 +16,11 @@ router.post("/logout", logoutHandler);
 //api route to check user status.
 router.get("/loginStatus", (req: Request, res: Response) => {
 	try {
-		if (req.session?.userId) {
-			return res
-				.status(200)
-				.json({ isLoggedIn: true, userId: req.session.userId });
+		//set uesrId from session to a variable
+		const userId = req.session?.userId;
+		if (userId) {
+			console.log("User logged in:", userId);
+			return res.status(200).json({ isLoggedIn: true, userId: userId });
 		}
 		return res.status(200).json({ isLoggedIn: false });
 	} catch (error) {

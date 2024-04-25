@@ -9,8 +9,7 @@ import {
 import type { Post, User } from "../../types";
 
 function UserAccount() {
-	const { isLoggedIn } = useAuth();
-	const { userId } = useParams<{ userId: string }>();
+	const { userId } = useAuth();
 	const [user, setUser] = useState<User>();
 	const [userPosts, setUserPosts] = useState<Post[]>([]);
 	const [favPosts, setFavPosts] = useState<Post[]>([]);
@@ -33,10 +32,10 @@ function UserAccount() {
 			}
 		};
 
-		if (isLoggedIn && userId) {
+		if (userId) {
 			fetchUserData();
 		}
-	}, [isLoggedIn, userId]);
+	}, [userId]);
 
 	const date = new Date(user?.createdAt as Date);
 	//format yyyy-mm-dd

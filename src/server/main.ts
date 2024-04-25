@@ -6,28 +6,29 @@ import userRoutes from "./userRoutes.ts";
 import databaseConnect from "./database.ts";
 import session from "express-session";
 import MongoStore from "connect-mongo";
-
+import compression from "compression";
 declare module "express-session" {
 	interface SessionData {
 		userId: string;
 	}
 }
-import compression from "compression";
-import cacheControl from "express-cache-controller";
 
 const app = express();
-ViteExpress.config({ mode: "development" });
-const timeToLive = 1000 * 60 * 5; // 5 minutes
+const timeToLive = 1000 * 60 * 30; // 30 minutes
 
-//middleware
-app.use("/uploads", express.static("uploads"));
-app.use(ViteExpress.static());
-app.use(cacheControl({ maxAge: timeToLive }));
-app.use(express.json());
+// 1. Compression middleware (should be one of the first middleware)
 app.use(compression());
-app.use(express.urlencoded({ extended: true }));
+
+// 2. Static file serving middleware
 app.use("/uploads", express.static("uploads"));
-console.log(`MongoURI: ${process.env.MONGO_URI}`);
+
+// 3. JSON parsing middleware
+app.use(express.json());
+
+// 4. URL-encoded form data parsing middleware
+app.use(express.urlencoded({ extended: true }));
+
+// 5. Session middleware (should be after parsing middleware)
 app.use(
 	session({
 		secret: "secret",
@@ -36,18 +37,23 @@ app.use(
 		store: MongoStore.create({
 			mongoUrl: process.env.MONGO_URI || "",
 		}),
+		cookie: {
+			maxAge: timeToLive,
+			httpOnly: true,
+			sameSite: "strict",
+		},
 	}),
 );
-app.use("/api", router);
 
-//mount signup and login routes under /api/auth
+// 6. Router middleware
+app.use("/api", router);
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 
-//refactoring database connection to use mongoose
+//Database connection (should be before starting the server)
 databaseConnect();
 
-//if page is blank first time, just refresh to have it normal again
+//Start the server
 ViteExpress.listen(app, 3000, () =>
 	console.log("Server is listening on http://localhost:3000/"),
 );

@@ -14,7 +14,6 @@ export const fetchPostSlug = async ({
 	const response = await fetch(`/api/data/${params.id}`);
 	if (!response.ok) throw new Error("Content not found");
 	return response.json();
-
 };
 
 export const createPost = async (formData: FormData) => {
@@ -38,10 +37,10 @@ export const checkLogin = async () => {
 		const response = await axios.get("/api/auth/loginStatus", {
 			withCredentials: true,
 		});
-		return response.data.isLoggedIn;
+		return response.data;
 	} catch (error) {
 		console.error("Error with login status:", error);
-		return false;
+		return { isLoggedIn: false, userId: null };
 	}
 };
 // ---------------- User specific api calls ----------------

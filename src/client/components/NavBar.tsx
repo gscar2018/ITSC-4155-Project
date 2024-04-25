@@ -6,7 +6,7 @@ import { useAuth } from "../api/auth/authContext";
 import { Icon } from "@iconify/react";
 
 const NavBar = () => {
-	const { isLoggedIn, logout, userId } = useAuth();
+	const { logout, userId } = useAuth();
 
 	const handleLogout = async () => {
 		try {
@@ -44,7 +44,7 @@ const NavBar = () => {
 				</div>
 				<div className="navbar-end">
 					<div className="join join-horizontal mx-2 ">
-						{isLoggedIn ? (
+						{userId ? (
 							<button
 								type="button"
 								onClick={handleLogout}
@@ -102,7 +102,7 @@ const NavBar = () => {
 									Test Page
 								</NavLink>
 							</li>
-							{isLoggedIn && (
+							{userId && (
 								<div>
 									<li>
 										<NavLink to="/upload" className="text-base-content">

@@ -5,8 +5,8 @@ import { compare } from "bcrypt";
 
 export const loginHandler = async (req: Request, res: Response) => {
 	try {
-		const { email, password, username } = req.body;
-		console.log("Received login request:", email, password, username);
+		const { email, password } = req.body;
+		console.log("Received login request:", email, password);
 
 		const user = await UserModel.findOne({ email });
 
@@ -22,7 +22,9 @@ export const loginHandler = async (req: Request, res: Response) => {
 		// Store the user ID in the session
 		req.session.userId = user._id;
 
-		res.status(200).json({ message: "Login successful", userId: user._id });
+		return res
+			.status(200)
+			.json({ message: "Login successful", userId: user._id });
 	} catch (error) {
 		console.error("Login error:", error);
 		return res.status(500).json({ message: "Internal server error" });

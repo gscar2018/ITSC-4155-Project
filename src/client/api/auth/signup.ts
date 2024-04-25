@@ -22,9 +22,11 @@ export const signupHandler = async (req: Request, res: Response) => {
 
 		req.session.userId = newUser._id;
 
-		res.status(201).json({ message: "Signup successful", userId: newUser._id });
+		return res
+			.status(201)
+			.json({ message: "Signup successful", userId: newUser._id });
 	} catch (error) {
 		console.error("Signup error:", error);
-		res.status(500).json({ message: "Internal server error" });
+		return res.status(500).json({ message: "Internal server error" });
 	}
 };

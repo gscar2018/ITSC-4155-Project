@@ -17,7 +17,6 @@ import PostPage from "./pages/PostPage";
 import UploadPage from "./pages/Upload";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
-import { AuthProvider } from "./api/auth/authContext";
 import PrivateRoute from "./components/PrivateRoute";
 import UserAccount from "./pages/UserAccount";
 import { fetchPosts, fetchPostSlug } from "./api/apiCalls";
@@ -47,8 +46,6 @@ const router = createBrowserRouter(routes);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 	<React.StrictMode>
-		<AuthProvider>
-			<RouterProvider router={router} />
-		</AuthProvider>
+		<RouterProvider router={router} />
 	</React.StrictMode>,
 );
