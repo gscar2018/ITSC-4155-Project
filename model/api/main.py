@@ -28,7 +28,7 @@ def preprocess_image(img):
     return img
 
 #load in model
-model = tf.saved_model.load("new-model-trained")
+model = tf.saved_model.load("../new-model-trained/saved_model.pb")
 
 # ROUTES
 @app.post("/predict")
@@ -47,7 +47,7 @@ async def predict(file: UploadFile = File(...)):
     identified_tags = []
 
     #load in tags
-    with open('./new-model/selected_tags', 'r') as f:
+    with open('../model-tags/selected_tags', 'r') as f:
         selected_tags = f.read().splitlines()
         for i, p in enumerate(probs[0]):
             print(f"{i} {selected_tags[i]}: {p}")
