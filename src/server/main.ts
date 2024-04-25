@@ -1,7 +1,17 @@
 import express from "express";
 import ViteExpress from "vite-express";
-import router from "./apiRoutes.js";
+import router from "./apiRoutes.ts";
+import authRoutes from "./authRoutes.ts";
+import userRoutes from "./userRoutes.ts";
 import databaseConnect from "./database.ts";
+import session from "express-session";
+import MongoStore from "connect-mongo";
+
+declare module "express-session" {
+	interface SessionData {
+		userId: string;
+	}
+}
 import compression from "compression";
 import cacheControl from "express-cache-controller";
 
@@ -16,14 +26,30 @@ app.use(cacheControl({ maxAge: timeToLive }));
 app.use(express.json());
 app.use(compression());
 app.use(express.urlencoded({ extended: true }));
+app.use("/uploads", express.static("uploads"));
+console.log(`MongoURI: ${process.env.MONGO_URI}`);
+app.use(
+	session({
+		secret: "secret",
+		resave: false,
+		saveUninitialized: true,
+		store: MongoStore.create({
+			mongoUrl: process.env.MONGO_URI || "",
+		}),
+	}),
+);
 app.use("/api", router);
+
+//mount signup and login routes under /api/auth
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
 
 //refactoring database connection to use mongoose
 databaseConnect();
 
 //if page is blank first time, just refresh to have it normal again
 ViteExpress.listen(app, 3000, () =>
-  console.log("Server is listening on http://localhost:3000/")
+	console.log("Server is listening on http://localhost:3000/"),
 );
 
 // adds dummy posts to database,

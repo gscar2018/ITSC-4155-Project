@@ -1,20 +1,32 @@
-//schema for creating a user account
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema } from "mongoose";
+import type { Document } from "mongoose";
 
 export interface UserDocument extends Document {
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
+	username: string;
+	email: string;
+	password: string;
+	favoritePosts: {
+		[collectionName: string]: string[];
+	};
+	createdAt: Date;
 }
 
-const userSchema = new Schema<UserDocument> ({
-    firstName: { type: String, required: [true, 'cannot be empty']},
-    lastName: { type: String, required: [true, 'cannot be empty']},
-    email: { type: String, required: [true, 'cannot be empty'], unique: true},
-    password: { type: String, required: [true, 'cannot be empty']},
+const userSchema = new Schema<UserDocument>({
+	username: { type: String, required: [true, "Username cannot be empty"] },
+	email: {
+		type: String,
+		required: [true, "Email cannot be empty"],
+		unique: true,
+	},
+	password: { type: String, required: [true, "Password cannot be empty"] },
+	favoritePosts: {
+		type: Map,
+		of: [{ type: Schema.Types.ObjectId, ref: "Post" }],
+		default: {},
+	},
+	createdAt: { type: Date, default: Date.now },
 });
 
-const UserModel = mongoose.model<UserDocument>('User', userSchema);
+const UserModel = mongoose.model<UserDocument>("User", userSchema);
 
 export default UserModel;
