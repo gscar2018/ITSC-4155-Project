@@ -14,6 +14,7 @@ export const fetchPostSlug = async ({
 	const response = await fetch(`/api/data/${params.id}`);
 	if (!response.ok) throw new Error("Content not found");
 	return response.json();
+
 };
 
 export const createPost = async (formData: FormData) => {

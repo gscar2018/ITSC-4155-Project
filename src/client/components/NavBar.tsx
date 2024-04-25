@@ -3,6 +3,8 @@ import { checkLogin } from "../api/apiCalls";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../api/auth/authContext";
+import { Icon } from "@iconify/react";
+
 const NavBar = () => {
 	const { isLoggedIn, logout, userId } = useAuth();
 

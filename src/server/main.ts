@@ -12,9 +12,19 @@ declare module "express-session" {
 		userId: string;
 	}
 }
+import compression from "compression";
+import cacheControl from "express-cache-controller";
 
 const app = express();
+ViteExpress.config({ mode: "development" });
+const timeToLive = 1000 * 60 * 5; // 5 minutes
+
+//middleware
+app.use("/uploads", express.static("uploads"));
+app.use(ViteExpress.static());
+app.use(cacheControl({ maxAge: timeToLive }));
 app.use(express.json());
+app.use(compression());
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static("uploads"));
 console.log(`MongoURI: ${process.env.MONGO_URI}`);
@@ -28,7 +38,6 @@ app.use(
 		}),
 	}),
 );
-
 app.use("/api", router);
 
 //mount signup and login routes under /api/auth

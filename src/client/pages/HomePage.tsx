@@ -1,6 +1,7 @@
 import { useLoaderData } from "react-router-dom";
 import type { Post } from "../../types";
 import { useAuth } from "../api/auth/authContext";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 function HomePage() {
 	const data = useLoaderData() as Post[];

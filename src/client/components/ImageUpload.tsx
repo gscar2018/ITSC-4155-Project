@@ -1,5 +1,6 @@
 import type React from "react";
 import { useRef, useState } from "react";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 function ImageUpload() {
 	// Explicitly define the type of state as `File | null`
@@ -54,7 +55,8 @@ function ImageUpload() {
 					onChange={handleFileChange}
 					required
 				/>
-				<div className="flex flex-col">
+				<div className="flex flex-col items-center justify-center">
+          <Icon icon="mdi:upload" className="text-6xl" />
 					<p className="text-lg text-accent-content">
 						Click to upload or drag & Drop
 					</p>

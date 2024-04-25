@@ -28,7 +28,19 @@ total_original = 9083
 keep_tag_indices = [0, 1, 2, 3, *range(6952, total_original)]
 original_weights, original_biases = model.layers[-2].get_weights()
 
-new_neurons = 1
+additional_tags = [
+    'gigachad',
+    # https://knowyourmeme.com/memes/gigachad
+    'spider_man_doppelganger',
+    # https://knowyourmeme.com/memes/spider-man-pointing-at-spider-man
+    'anyas_heh_face',
+    # https://knowyourmeme.com/memes/anyas-heh-face-anya-smug-face
+    'two_buttons',
+    # https://knowyourmeme.com/memes/daily-struggle-two-buttons,
+    'two_soyjaks_pointing',
+]
+
+new_neurons = len(additional_tags)
 # need output size from previous layer to pad weights for new neurons
 weight_size = intermediate_model.output.shape[1]
 
@@ -65,14 +77,6 @@ with open('wd14_tagger_model/selected_tags.csv') as f:
 # https://stackoverflow.com/questions/18272160/access-multiple-elements-of-list-knowing-their-index
 import operator
 preserved_tags = list(operator.itemgetter(*keep_tag_indices)(all_tags))
-
-additional_tags = [
-    'gigachad_(meme)',
-    # https://knowyourmeme.com/memes/gigachad
-    # https://knowyourmeme.com/memes/spider-man-pointing-at-spider-man
-    # https://knowyourmeme.com/memes/anyas-heh-face-anya-smug-face
-    # https://knowyourmeme.com/memes/daily-struggle-two-buttons
-]
 
 new_tags = preserved_tags + additional_tags
 

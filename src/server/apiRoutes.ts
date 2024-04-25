@@ -1,6 +1,5 @@
 import express from "express";
 import { getPosts, getPostById } from "./apiMethods.ts";
-import { Post } from "../types.ts";
 import { imageUploadHandler, createPost } from "./apiMethods.ts";
 const router = express.Router();
 

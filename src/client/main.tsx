@@ -8,12 +8,12 @@ import {
 	Route,
 	RouterProvider,
 } from "react-router-dom";
+
 import HomePage from "./pages/HomePage";
 import TestPage from "./pages/TestPage";
 import ErrorPage from "./pages/ErrorPage";
 import NavBar from "./components/NavBar";
 import PostPage from "./pages/PostPage";
-import { fetchPosts, fetchPostSlug } from "./api/apiCalls";
 import UploadPage from "./pages/Upload";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
