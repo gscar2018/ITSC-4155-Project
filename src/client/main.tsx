@@ -20,6 +20,7 @@ import LoginPage from "./pages/LoginPage";
 import { AuthProvider } from "./api/auth/authContext";
 import PrivateRoute from "./components/PrivateRoute";
 import UserAccount from "./pages/UserAccount";
+import { fetchPosts, fetchPostSlug } from "./api/apiCalls";
 
 const routes = createRoutesFromElements(
 	<Route element={<NavBar />}>
