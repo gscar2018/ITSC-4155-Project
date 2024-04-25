@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Post } from "../../types.js";
 import { useParams } from "react-router-dom";
 import { fetchPostSlug } from "../api/apiCalls.js";
+import OpenAiHandler from "../components/OpenAiHandler";
 
 function PostPage() {
   /**
@@ -70,7 +71,9 @@ function PostPage() {
             <p className="text-info ">
               {post.content}
               <span className="text-secondary font-semibold">
-                (temporary until ai api is used to generate the description)
+               <OpenAiHandler />
+               <button className="bg-primary text-white px-2 py-1 rounded-lg">Explain this meme
+               </button>
               </span>
             </p>
           </div>
