@@ -1,108 +1,116 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { NavLink, useLocation } from 'react-router-dom';
-import { Post } from '../../types.ts';
+import { useState, useEffect, useRef } from "react";
+import axios from "axios";
+import { NavLink } from "react-router-dom";
+import type { Post } from "../../types.ts";
 
 const Search = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState<Post[] | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [clearResults, setClearResults] = useState(false);
-  const location = useLocation();
+	const [searchQuery, setSearchQuery] = useState("");
+	const [searchResults, setSearchResults] = useState<Post[] | null>(null);
+	const [loading, setLoading] = useState(false);
+	const [showResults, setShowResults] = useState(false);
+	const searchRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (clearResults) {
-      setSearchResults(null);
-      setClearResults(false);
-    }
-  }, [clearResults]);
+	useEffect(() => {
+		const handleOutsideClick = (event: MouseEvent) => {
+			if (
+				searchRef.current &&
+				!searchRef.current.contains(event.target as Node)
+			) {
+				setShowResults(false);
+			}
+		};
 
-  useEffect(() => {
-    // Clear search results when the location changes (i.e., navigation)
-    setClearResults(true);
-  }, [location]);
+		document.addEventListener("mousedown", handleOutsideClick);
+		return () => {
+			document.removeEventListener("mousedown", handleOutsideClick);
+		};
+	}, []);
 
-  const handleSearch = async () => {
-    try {
-      setLoading(true);
-      console.log('Searching for posts with tags:', searchQuery);
+	const handleSearch = async () => {
+		try {
+			setLoading(true);
+			console.log("Searching for posts with tags:", searchQuery);
 
-      const response = await axios.get(`/api/posts/search?tags=${searchQuery}`);
-      console.log('Search response:', response.data);
-      
-      setSearchResults(response.data);
-    } catch (error) {
-      console.error('Error searching posts:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+			const response = await axios.get(`/api/posts/search?tags=${searchQuery}`);
+			console.log("Search response:", response.data);
 
-  const handleResultClick = () => {
-    setClearResults(true);
-  };
+			setSearchResults(response.data);
+			setShowResults(true);
+		} catch (error) {
+			console.error("Error searching posts:", error);
+		} finally {
+			setLoading(false);
+		}
+	};
 
-  return (
-    <div>
-      <input
-        type="text"
-        placeholder="Search by tag..."
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') handleSearch();
-        }}
-        style={{
-          width: '200px',
-          padding: '8px',
-          border: '1px solid #ccc',
-          borderRadius: '4px',
-          fontSize: '16px'
-        }}
-      />
-      <button
-        onClick={handleSearch}
-        disabled={loading}
-        style={{
-          backgroundColor: '#007bff',
-          color: '#fff',
-          border: 'none',
-          padding: '8px 12px',
-          borderRadius: '4px',
-          fontSize: '16px',
-          cursor: 'pointer'
-        }}
-      >
-        Search
-      </button>
-      {searchResults === null && !loading && (
-        null
-      )}
-      {searchResults !== null && searchResults.length === 0 && !loading && (
-        <div>No result found</div>
-      )}
-      {searchResults !== null && searchResults.length > 0 && (
-        <div className="search-results-container">
-          {searchResults.map((post: Post, index: number) => (
-            <NavLink key={post._id} to={`/post/${post._id}`} className="search-result" onClick={handleResultClick}>
-              <div className="post">
-                <h2 style={{ color: 'blue' }}>Result {index + 1}:</h2>
-                <h2>{post.title}</h2>
-                <p>{post.content}</p>
-                <div className="tags">
-                  {/* Render tags with spaces */}
-                  {post.tags.join(', ')}
-                </div>
-                {post.image && (
-                  <img src={post.image.url} alt="Post" className="post-image" style={{ maxWidth: '150px' }} onError={() => console.error('Error loading image:', post.image.url)} />
-                )}
-              </div>
-            </NavLink>
-          ))}
-        </div>
-      )}
-    </div>
-  );
+	const handleResultClick = () => {
+		setShowResults(false);
+	};
+
+	return (
+		<div ref={searchRef} className="relative">
+			<div className="join my-4">
+				<input
+					type="text"
+					placeholder="Search by tag..."
+					value={searchQuery}
+					onChange={(e) => setSearchQuery(e.target.value)}
+					onKeyDown={(e) => {
+						if (e.key === "Enter") handleSearch();
+					}}
+					className="input input-sm input-bordered join-item"
+				/>
+				<button
+					type="button"
+					onClick={handleSearch}
+					disabled={loading}
+					className="btn btn-sm join-item bg-neutral text-white"
+				>
+					Search
+				</button>
+			</div>
+			{searchResults !== null && showResults && (
+				<div className="absolute top-24 left-0 w-96 max-h-72 overflow-y-auto z-50 shadow-lg rounded-md bg-base-100">
+					{searchResults.length === 0 ? (
+						<div className="text-center p-4">No results found</div>
+					) : (
+						searchResults.map((post: Post) => (
+							<NavLink
+								key={post._id}
+								to={`/post/${post._id}`}
+								className="flex items-center px-4 py-2 hover:bg-gray-100 cursor-pointer"
+								onClick={handleResultClick}
+							>
+								{post.image && (
+									<img
+										src={post.image.url}
+										alt="Post"
+										className="w-20 h-20 object-cover rounded-md mr-4"
+										onError={() =>
+											console.error("Error loading image:", post.image.url)
+										}
+									/>
+								)}
+								<div>
+									<h4 className="text-lg font-semibold">{post.title}</h4>
+									<div className="mt-2 flex flex-wrap gap-2">
+										{post.tags.map((tag) => (
+											<span
+												key={tag}
+												className="inline-block bg-base-200 rounded-full px-3 text-sm font-semibold"
+											>
+												{tag}
+											</span>
+										))}
+									</div>
+								</div>
+							</NavLink>
+						))
+					)}
+				</div>
+			)}
+		</div>
+	);
 };
 
 export default Search;
