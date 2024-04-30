@@ -10,6 +10,8 @@ export default async function handler(
 ) {
     try {
         const images: string[] = req.body.images;
+
+        //checks for images
         if (!images || images.length === 0) {
             return res.status(400).json({ error: "No images provided" });
         }
@@ -27,7 +29,6 @@ export default async function handler(
         );
 
         //CREATE A CHAT COMPLETION request
-
         const response = await openai.chat.completions.create({
             model: "gpt-4-vision-preview",
             stream: false,

@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { Post } from "../../types.js";
 import { useParams } from "react-router-dom";
 import { fetchPostSlug } from "../api/apiCalls.js";
-import OpenAiHandler from "../components/OpenAiHandler";
+import toast from "react-hot-toast";
+import Button from "../components/Button.js";
 
 function PostPage() {
   /**
@@ -16,6 +17,9 @@ function PostPage() {
      */
   const { id } = useParams<{ id: string }>();
   const [post, setPost] = useState<Post | null>(null);
+  // for open ai 
+  const [images, setImages] = useState<File[]>([]);
+  const [isSending, setIsSending] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -40,6 +44,50 @@ function PostPage() {
     const baseUrl = currentUrl.slice(0, currentUrl.indexOf("/", 8) + 1);
     return baseUrl + post.image.url;
   }
+
+  function OpenAiHandler() {
+
+    const sendMessage = async () => {
+        setIsSending(true);
+
+        //convert image to base64 strings for backend 
+        const imagePromises = images.map((url) => {
+            return new Promise<string>((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result as string);
+                reader.onerror = (error) => reject(error);
+                reader.readAsDataURL(url);
+            });
+        });
+
+        //wait for images to be converted
+        const imageBase64Strings = await Promise.all(imagePromises);
+
+        ///payload for the openai api
+        const payload = {images: imageBase64Strings};
+
+        try {
+            const response = await fetch("/api/openai",{
+                body: JSON.stringify(payload),
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            //error handling
+            if (!response.ok) {
+                throw new Error("Failed to send message");
+            }
+            //
+        } catch (error) {
+            toast.error("Failed to send message");
+            console.error(error);
+        } finally {
+            setIsSending(false);
+        }
+    }
+};
 
   return (
     <div className="container mx-auto py-8">
@@ -71,12 +119,10 @@ function PostPage() {
             <p className="text-info ">
               {post.content}
               <span className="text-secondary font-semibold">
-               <OpenAiHandler />
-               <button className="bg-primary text-white px-2 py-1 rounded-lg">Explain this meme
-               </button>
               </span>
             </p>
           </div>
+          <Button/>
         </div>
       </div>
     </div>
