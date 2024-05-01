@@ -52,6 +52,7 @@ function LoginPage() {
 					value={email}
 					onChange={(e) => setEmail(e.target.value)}
 					className="border rounded px-3 py-2 mb-3"
+					required
 				/>
 				<br />
 				<input
@@ -60,6 +61,7 @@ function LoginPage() {
 					value={password}
 					onChange={(e) => setPassword(e.target.value)}
 					className="border rounded px-3 py-2 mb-3"
+					required
 				/>
 				<br />
 
