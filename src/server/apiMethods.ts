@@ -57,33 +57,29 @@ export async function createPost(req: Request, res: Response) {
 
 	console.log("File uploaded. preparing to save to database");
 	try {
-
 		const formData = new FormData();
-		formData.append('file', new Blob([req.file.buffer], { type: req.file.mimetype }));
+		formData.append(
+			"file",
+			new Blob([req.file.buffer], { type: req.file.mimetype }),
+		);
 
 		const inferenceRequest = await axios.post(
 			"http://localhost:8000/predict",
-				formData,
+			formData,
 			{
 				headers: {
 					"Content-Type": "multipart/form-data",
-				}
-			}
-		)
+				},
+			},
+		);
 
 		const inferredTags = inferenceRequest.data.tags;
 
-		const {
-			userId,
-			title,
-			tags,
-			caption,
-			content = "Default"
-		} = req.body;
+		const { userId, title, tags, caption, content = "Default" } = req.body;
 
 		let allTags;
 		if (tags) {
-			allTags = inferredTags.concat(tags.split(" "))
+			allTags = inferredTags.concat(tags.split(" "));
 		} else {
 			allTags = inferredTags;
 		}
@@ -94,7 +90,9 @@ export async function createPost(req: Request, res: Response) {
 			content: content,
 			image: {
 				caption,
-				data: `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`,
+				data: `data:${req.file.mimetype};base64,${req.file.buffer.toString(
+					"base64",
+				)}`,
 			},
 			tags: allTags,
 		});
@@ -138,25 +136,51 @@ export const getUserPosts = async (req: Request, res: Response) => {
 export const getUserFavorites = async (req: Request, res: Response) => {
 	try {
 		const { userId } = req.params;
-		const user = await UserModel.findById(userId).lean();
-
-		const favoritePosts: { [collectionName: string]: Post[] } = {};
+		const user = await UserModel.findById(userId)
+			.lean()
+			.populate("favoritePosts");
 
 		if (!user) {
 			return res.status(404).json({ error: "User not found" });
-		}
-		for (const [collectionName, postIds] of Object.entries(
-			user.favoritePosts,
-		)) {
-			const posts = (await PostModel.find({
-				_id: { $in: postIds },
-			}).lean()) as Post[];
-			favoritePosts[collectionName] = posts;
 		}
 
 		return res.status(200).json(user?.favoritePosts);
 	} catch (error) {
 		console.error("Could not get User favorites:", error);
+		return res.status(500).json({ error: "Internal Server Error" });
+	}
+};
+
+export const addToFavorites = async (req: Request, res: Response) => {
+	try {
+		const { userId } = req.params;
+		const { postId } = req.body;
+
+		const user = await UserModel.findById(userId);
+		if (!user) {
+			return res.status(404).json({ error: "User not found" });
+		}
+
+		const post = await PostModel.findById(postId);
+		if (!post) {
+			return res.status(404).json({ error: "Post not found" });
+		}
+
+		//if post is not in favorites, add it, else remove it
+		if (!user.favoritePosts.includes(postId)) {
+			user.favoritePosts.push(postId);
+			await user.save();
+		} else {
+			const index = user.favoritePosts.indexOf(postId);
+			if (index > -1) {
+				user.favoritePosts.splice(index, 1);
+			}
+			await user.save();
+		}
+
+		return res.sendStatus(200);
+	} catch (error) {
+		console.error("Could not add post to favorites:", error);
 		return res.status(500).json({ error: "Internal Server Error" });
 	}
 };
