@@ -126,7 +126,7 @@ function UserAccount() {
 						name="my_tabs_1"
 						role="tab"
 						className="tab"
-						aria-label="Tab 1"
+						aria-label="Uploads"
 						checked={activeTab === "home"}
 						onChange={() => setActiveTab("home")}
 					/>
@@ -139,7 +139,7 @@ function UserAccount() {
 						name="my_tabs_1"
 						role="tab"
 						className="tab"
-						aria-label="Tab 2"
+						aria-label="Favorites"
 						checked={activeTab === "favorites"}
 						onChange={() => setActiveTab("favorites")}
 					/>
