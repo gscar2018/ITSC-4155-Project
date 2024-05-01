@@ -61,7 +61,7 @@ function UploadPage() {
 				</div>
 				<div className="mb-4">
 					<label htmlFor="tags" className="label">
-						<span className="label-text">Tags:</span>
+						<span className="label-text">Tags (optional):</span>
 						<span className="label-text-alt">Seperate tags with space</span>
 					</label>
 					<input
@@ -70,7 +70,6 @@ function UploadPage() {
 						className="input input-bordered w-full"
 						value={tags}
 						onChange={(e) => setTags(e.target.value)}
-						required
 					/>
 				</div>
 				<ImageUpload />

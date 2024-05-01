@@ -4,6 +4,7 @@ import { PostModel } from "./schemas/Post.ts";
 import type { Request, Response } from "express";
 import type { Post } from "../types.ts";
 import UserModel from "./schemas/User.ts";
+import axios from "axios";
 
 //function to get all posts
 // export async function getPosts() {
@@ -56,6 +57,22 @@ export async function createPost(req: Request, res: Response) {
 
 	console.log("File uploaded. preparing to save to database");
 	try {
+
+		const formData = new FormData();
+		formData.append('file', new Blob([req.file.buffer], { type: req.file.mimetype }));
+
+		const inferenceRequest = await axios.post(
+			"http://localhost:8000/predict",
+				formData,
+			{
+				headers: {
+					"Content-Type": "multipart/form-data",
+				}
+			}
+		)
+
+		const inferredTags = inferenceRequest.data.tags;
+
 		const {
 			userId,
 			title,
@@ -63,6 +80,14 @@ export async function createPost(req: Request, res: Response) {
 			caption,
 			content = "Default"
 		} = req.body;
+
+		let allTags;
+		if (tags) {
+			allTags = inferredTags.concat(tags.split(" "))
+		} else {
+			allTags = inferredTags;
+		}
+
 		const newPost = new PostModel({
 			user: userId,
 			title: title,
@@ -71,7 +96,7 @@ export async function createPost(req: Request, res: Response) {
 				caption,
 				data: `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`,
 			},
-			tags: tags.split(" "),
+			tags: allTags,
 		});
 
 		const savedPost = await newPost.save();
