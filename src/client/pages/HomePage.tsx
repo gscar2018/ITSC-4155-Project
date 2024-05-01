@@ -50,6 +50,12 @@ function HomePage() {
 								<a
 									className="mt-6 btn btn-sm btn-neutral text-neutral-content font-bold py-2 px-4 rounded"
 									href={`/post/${post._id}`}
+									onMouseEnter={(e) => {
+										e.currentTarget.classList.add("text-primary");
+									}}
+									onMouseLeave={(e) => {
+										e.currentTarget.classList.remove("text-primary");
+									}}
 								>
 									View More
 								</a>
