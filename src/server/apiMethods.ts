@@ -45,34 +45,31 @@ const storage = multer.diskStorage({
 	},
 });
 
-const upload = multer({ storage: storage });
+// const upload = multer({ storage: storage });
+const upload = multer();
 export const imageUploadHandler = upload.single("image");
 export async function createPost(req: Request, res: Response) {
 	//error handling
 	if (!req.file) {
 		return res.status(400).json({ error: "Please upload a file." });
 	}
-	const {
-		title = "Default Title",
-		content = "Default Content",
-		tags = "default",
-		caption = "Default Caption",
-	} = req.body;
 
 	console.log("File uploaded. preparing to save to database");
 	try {
-		const { userId, title, tags, caption } = req.body;
-		const imageFile = req.file;
-		if (!imageFile) {
-			return res.status(400).json({ error: "No file provided" });
-		}
+		const {
+			userId,
+			title,
+			tags,
+			caption,
+			content = "Default"
+		} = req.body;
 		const newPost = new PostModel({
 			user: userId,
 			title: title,
 			content: content,
 			image: {
-				url: req.file.path, // Or the URL if you're using cloud storage
 				caption,
+				data: `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`,
 			},
 			tags: tags.split(" "),
 		});
