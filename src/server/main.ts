@@ -51,12 +51,12 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 
 //Database connection (should be before starting the server)
-databaseConnect();
-
-//Start the server
-ViteExpress.listen(app, 3000, () =>
-	console.log("Server is listening on http://localhost:3000/"),
-);
+databaseConnect().then(() => {
+	//Start the server
+	ViteExpress.listen(app, 3000, () =>
+		console.log("Server is listening on http://localhost:3000/"),
+	);
+});
 
 // adds dummy posts to database,
 //ONLY uncomment if no posts in database

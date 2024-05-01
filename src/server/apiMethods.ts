@@ -4,6 +4,7 @@ import { PostModel } from "./schemas/Post.ts";
 import type { Request, Response } from "express";
 import type { Post } from "../types.ts";
 import UserModel from "./schemas/User.ts";
+import axios from "axios";
 
 //function to get all posts
 // export async function getPosts() {
@@ -45,36 +46,57 @@ const storage = multer.diskStorage({
 	},
 });
 
-const upload = multer({ storage: storage });
+// const upload = multer({ storage: storage });
+const upload = multer();
 export const imageUploadHandler = upload.single("image");
 export async function createPost(req: Request, res: Response) {
 	//error handling
 	if (!req.file) {
 		return res.status(400).json({ error: "Please upload a file." });
 	}
-	const {
-		title = "Default Title",
-		content = "Default Content",
-		tags = "default",
-		caption = "Default Caption",
-	} = req.body;
 
 	console.log("File uploaded. preparing to save to database");
 	try {
-		const { userId, title, tags, caption } = req.body;
-		const imageFile = req.file;
-		if (!imageFile) {
-			return res.status(400).json({ error: "No file provided" });
+
+		const formData = new FormData();
+		formData.append('file', new Blob([req.file.buffer], { type: req.file.mimetype }));
+
+		const inferenceRequest = await axios.post(
+			"http://localhost:8000/predict",
+				formData,
+			{
+				headers: {
+					"Content-Type": "multipart/form-data",
+				}
+			}
+		)
+
+		const inferredTags = inferenceRequest.data.tags;
+
+		const {
+			userId,
+			title,
+			tags,
+			caption,
+			content = "Default"
+		} = req.body;
+
+		let allTags;
+		if (tags) {
+			allTags = inferredTags.concat(tags.split(" "))
+		} else {
+			allTags = inferredTags;
 		}
+
 		const newPost = new PostModel({
 			user: userId,
 			title: title,
 			content: content,
 			image: {
-				url: req.file.path, // Or the URL if you're using cloud storage
 				caption,
+				data: `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`,
 			},
-			tags: tags.split(" "),
+			tags: allTags,
 		});
 
 		const savedPost = await newPost.save();

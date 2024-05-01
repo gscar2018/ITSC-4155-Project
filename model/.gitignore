@@ -8,3 +8,4 @@ new-model-trained/
 
 venv/
 
+__pycache__

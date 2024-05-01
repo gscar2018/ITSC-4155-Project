@@ -49,22 +49,24 @@ function UserAccount() {
 					<h2 className="text-2xl font-semibold mb-4">Your Posts</h2>
 					<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
 						{userPosts.map((post: Post, index) => (
-							<div key={post._id} className="card bg-base-200 shadow-xl">
-								<figure className="px-4 pt-4">
-									<img
-										src={`${window.location.origin}/${post.image.url}`}
-										alt={post.image.caption}
-										className="rounded-xl w-full h-40 object-cover"
-									/>
-								</figure>
-								<div className="card-body items-center text-center p-4">
-									<h3 className="card-title">{post.title}</h3>
-									<NavLink to={`/post/${post._id}`}>
-										<button type="button" className="btn btn-primary">
-											View Post
-										</button>
+							<div key={post._id} className="card bg-base-200 shadow-xl justify-around">
+								<figure className="p-4">
+									<NavLink to={`/post/${post._id}`} className="w-full">
+										<img
+											src={post.image.data || `${window.location.origin}/${post.image.url}`}
+											alt={post.image.caption}
+											className="rounded-xl w-full object-cover"
+										/>
 									</NavLink>
-								</div>
+								</figure>
+								{/*<div className="card-body items-center text-center p-4">*/}
+								{/*	<h3 className="card-title">{post.title}</h3>*/}
+								{/*	*/}
+								{/*		<button type="button" className="btn btn-primary">*/}
+								{/*			View Post*/}
+								{/*		</button>*/}
+								{/*	*/}
+								{/*</div>*/}
 							</div>
 						))}
 					</div>
@@ -124,7 +126,7 @@ function UserAccount() {
 						name="my_tabs_1"
 						role="tab"
 						className="tab"
-						aria-label="Tab 1"
+						aria-label="Uploads"
 						checked={activeTab === "home"}
 						onChange={() => setActiveTab("home")}
 					/>
@@ -137,7 +139,7 @@ function UserAccount() {
 						name="my_tabs_1"
 						role="tab"
 						className="tab"
-						aria-label="Tab 2"
+						aria-label="Favorites"
 						checked={activeTab === "favorites"}
 						onChange={() => setActiveTab("favorites")}
 					/>
