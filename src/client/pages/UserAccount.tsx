@@ -49,11 +49,17 @@ function UserAccount() {
 					<h2 className="text-2xl font-semibold mb-4">Your Posts</h2>
 					<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
 						{userPosts.map((post: Post, index) => (
-							<div key={post._id} className="card bg-base-200 shadow-xl justify-around">
+							<div
+								key={post._id}
+								className="card bg-base-200 shadow-xl justify-around"
+							>
 								<figure className="p-4">
 									<NavLink to={`/post/${post._id}`} className="w-full">
 										<img
-											src={post.image.data || `${window.location.origin}/${post.image.url}`}
+											src={
+												post.image.data ||
+												`${window.location.origin}/${post.image.url}`
+											}
 											alt={post.image.caption}
 											className="rounded-xl w-full object-cover"
 										/>
@@ -87,7 +93,7 @@ function UserAccount() {
 										<div key={post._id} className="card bg-base-200 shadow-xl">
 											<figure className="px-4 pt-4">
 												<img
-													src={post.image.url}
+													src={post.image.data}
 													alt={post.title}
 													className="rounded-xl w-full h-40 object-cover"
 													loading="lazy"

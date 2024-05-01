@@ -1,6 +1,7 @@
 import express from "express";
 import { getPosts, getPostById } from "./apiMethods.ts";
 import { imageUploadHandler, createPost } from "./apiMethods.ts";
+import { searchPostsByTags } from './controllers/postController.ts';
 const router = express.Router();
 
 //test api route for TestPage.tsx in client
@@ -16,5 +17,8 @@ router.get("/data/:id", getPostById);
 
 // Endpoint for uploading an image
 router.post("/data/upload", imageUploadHandler, createPost);
+
+//endpoint for searching routes by tag
+router.get('/posts/search', searchPostsByTags);
 
 export default router;
