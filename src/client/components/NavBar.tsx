@@ -26,7 +26,7 @@ const NavBar = () => {
               <img src={logo} alt="Logo" className="logo-img" />
             </NavLink>
             <NavLink to="/" className="cursor-pointer">
-              <h3 className="text-neutral-content hover: ml-2">ITSC 4155</h3>
+              <h3 className="text-neutral-content hover: ml-2">Reaction Engine</h3>
             </NavLink>
           </div>
         </div>
