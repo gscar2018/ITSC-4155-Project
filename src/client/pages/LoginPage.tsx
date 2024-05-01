@@ -40,13 +40,14 @@ function LoginPage() {
 
 	// Render login form
 	return (
-		<div className="p-5">
-			<h2 className="font-bold mb-4">Login</h2>
+		<div className="bg-gray-200 flex justify-center items-center h-screen w-screen">
+		<div className=" border-t-8 rounded-sm border-neutral bg-white p-12 shadow-2xl w-96">
+			<h2 className="font-bold text-center block text-2xl" >Login</h2>
 			{/* Display error message if exists */}
 			{error && <p className="text-error">{error}</p>}{" "}
 			<form onSubmit={handleLogin} className="form-control">
 				<input
-					type="text"
+					type="email"
 					placeholder="Email"
 					value={email}
 					onChange={(e) => setEmail(e.target.value)}
@@ -64,11 +65,12 @@ function LoginPage() {
 
 				<button
 					type="submit"
-					className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+					className="bg-neutral-500 hover:bg-neutral-700 text-white font-bold py-2 px-4 rounded"
 				>
-					Login
+					Submit
 				</button>
 			</form>
+		</div>
 		</div>
 	);
 }
