@@ -1,6 +1,7 @@
 interface Image {
 	data: string;
 	caption?: string;
+	data?: string;
 }
 
 // Define an interface for the post document

@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document, Types } from "mongoose";
 import type { Post } from "../../types.ts";
 
 // Define the schema for the post document
@@ -7,8 +7,9 @@ const postSchema = new Schema<Post>({
 	title: { type: String, required: true },
 	content: { type: String, required: true },
 	image: {
-		url: { type: String, required: true },
+		url: { type: String },
 		caption: { type: String },
+		data: { type: String, required: true },
 	},
 
 	tags: [{ type: String }],

@@ -10,7 +10,9 @@ function PostPage() {
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 				<div className="flex flex-col space-y-2 items-center justify-center md:justify-start md:items-start">
 					<img
-						src={`${window.location.origin}/${post.image.data}`}
+						src={
+							post.image.data || `${window.location.origin}/${post.image.url}`
+						}
 						alt={post.image.caption}
 						className="w-auto h-auto object-cover rounded-lg"
 					/>
