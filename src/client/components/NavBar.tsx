@@ -91,11 +91,6 @@ const NavBar = () => {
                   Home
                 </NavLink>
               </li>
-              <li>
-                <NavLink to="/test" className="text-base-content">
-                  Test Page
-                </NavLink>
-              </li>
               {userId && (
                 <div>
                   <li>
