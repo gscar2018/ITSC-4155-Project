@@ -5,15 +5,19 @@ import type { Request, Response } from "express";
 import type { Post } from "../types.ts";
 import UserModel from "./schemas/User.ts";
 import axios from "axios";
+import { caching } from "cache-manager";
 
-//function to get all posts
-// export async function getPosts() {
-//   const posts = await PostModel.find().lean();
-//   return posts;
-// }
+const cacheWrapper = await caching("memory", {
+	max: 100, //max items in cache
+	ttl: 60 * 60, // 1 hour
+	refreshThreshold: 30 * 60, // 1 hour
+});
+
 export async function getPosts(req: Request, res: Response) {
 	try {
-		const posts: Post[] = await PostModel.find().lean();
+		const posts: Post[] = await cacheWrapper.wrap("posts", async () => {
+			return PostModel.find().lean();
+		});
 		return res.json(posts);
 	} catch (error) {
 		console.error("Could not get posts:", error);
@@ -77,7 +81,7 @@ export async function createPost(req: Request, res: Response) {
 
 		const { userId, title, tags, caption, content = "Default" } = req.body;
 
-		let allTags;
+		let allTags: string[];
 		if (tags) {
 			allTags = inferredTags.concat(tags.split(" "));
 		} else {
@@ -98,6 +102,8 @@ export async function createPost(req: Request, res: Response) {
 		});
 
 		const savedPost = await newPost.save();
+
+		await cacheWrapper.del("posts");
 
 		return res
 			.status(200)
@@ -122,9 +128,14 @@ export const getUser = async (req: Request, res: Response) => {
 export const getUserPosts = async (req: Request, res: Response) => {
 	try {
 		const { userId } = req.params;
-		const posts = await PostModel.find({ user: userId })
-			.populate("user", "username")
-			.lean();
+		// const posts = await PostModel.find({ user: userId })
+		// 	.populate("user", "username")
+		// 	.lean();
+		const posts = await cacheWrapper.wrap("userPosts", async () => {
+			return PostModel.find({ user: userId })
+				.populate("user", "username")
+				.lean();
+		});
 
 		return res.status(200).json(posts);
 	} catch (error) {
@@ -136,9 +147,12 @@ export const getUserPosts = async (req: Request, res: Response) => {
 export const getUserFavorites = async (req: Request, res: Response) => {
 	try {
 		const { userId } = req.params;
-		const user = await UserModel.findById(userId)
-			.lean()
-			.populate("favoritePosts");
+		// const user = await UserModel.findById(userId)
+		// 	.lean()
+		// 	.populate("favoritePosts");
+		const user = await cacheWrapper.wrap("userFavorites", async () => {
+			return UserModel.findById(userId).lean().populate("favoritePosts");
+		});
 
 		if (!user) {
 			return res.status(404).json({ error: "User not found" });
@@ -177,6 +191,8 @@ export const addToFavorites = async (req: Request, res: Response) => {
 			}
 			await user.save();
 		}
+
+		await cacheWrapper.del("userFavorites");
 
 		return res.sendStatus(200);
 	} catch (error) {
