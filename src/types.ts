@@ -1,5 +1,5 @@
 interface Image {
-	data: string;
+	url: string;
 	caption?: string;
 	data?: string;
 }
