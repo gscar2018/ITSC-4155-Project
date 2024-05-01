@@ -47,6 +47,23 @@ const Search = () => {
         setShowResults(false);
     };
 
+    const getImageSource = (post: Post) => {
+        /**
+         * data: `data:${req.file.mimetype};base64,${req.file.buffer.toString(
+                    "base64",
+                )}`
+         */
+        //if image.data exists we need to extract the string between : and ;(mimetype)
+        if (post.image.data?.startsWith("data:image/")) {
+            return post.image.data;
+        } if (post.image.data) {
+            const mimeType = post.image.data.split(";")[0].split(":")[1];
+            const base64Data = post.image.data.replace(/^data:image\/\w+;base64,/, "");
+            const dataUrl = `data:${mimeType};base64,${base64Data}`;
+            return dataUrl;
+        }
+        return `${window.location.origin}/${post.image.url}`;
+    };
     return (
         <div ref={searchRef} className="relative">
             <div className="join my-4">
@@ -83,7 +100,7 @@ const Search = () => {
                             >
                                 {post.image && (
                                     <img
-                                        src={`${window.location.origin}/${post.image.url}`}
+                                        src={getImageSource(post)}
                                         alt="Post"
                                         className="w-20 h-20 object-cover rounded-md mr-4"
                                         onError={() =>
