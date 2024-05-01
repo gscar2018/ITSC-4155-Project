@@ -49,7 +49,7 @@ function SignupPage() {
 						className="border rounded px-3 py-2 mb-3"
 						required
 					/>
-
+				<br />
 					<input
 						type="text"
 						placeholder="Username"
@@ -58,7 +58,7 @@ function SignupPage() {
 						className="border rounded px-3 py-2 mb-3"
 						required
 					/>
-
+					<br />
 					<input
 						type="password"
 						placeholder="Password"
@@ -67,7 +67,7 @@ function SignupPage() {
 						className="border rounded px-3 py-2 mb-3"
 						required
 					/>
-
+					<br />
 					<button
 						type="submit"
 						className="bg-neutral-500 hover:bg-neutral-700 text-white font-bold py-2 px-4 rounded mt-3"
