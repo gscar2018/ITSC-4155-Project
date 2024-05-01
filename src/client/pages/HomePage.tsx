@@ -33,7 +33,7 @@ function HomePage() {
 							>
 								{/* dynamic img size based on mobile or desktop screen size */}
 								<img
-									src={post.image.url}
+									src={post.image.data}
 									alt={post.image.caption}
 									className="w-64 h-64 md:w-80 md:h-80 object-cover rounded-lg"
 								/>

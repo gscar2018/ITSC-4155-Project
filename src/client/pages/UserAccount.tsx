@@ -52,7 +52,7 @@ function UserAccount() {
 							<div key={post._id} className="card bg-base-200 shadow-xl">
 								<figure className="px-4 pt-4">
 									<img
-										src={`${window.location.origin}/${post.image.url}`}
+										src={`${window.location.origin}/${post.image.data}`}
 										alt={post.image.caption}
 										className="rounded-xl w-full h-40 object-cover"
 									/>
@@ -85,7 +85,7 @@ function UserAccount() {
 										<div key={post._id} className="card bg-base-200 shadow-xl">
 											<figure className="px-4 pt-4">
 												<img
-													src={post.image.url}
+													src={post.image.data}
 													alt={post.title}
 													className="rounded-xl w-full h-40 object-cover"
 													loading="lazy"

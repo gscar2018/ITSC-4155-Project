@@ -83,11 +83,11 @@ const Search = () => {
 							>
 								{post.image && (
 									<img
-										src={post.image.url}
+										src={post.image.data}
 										alt="Post"
 										className="w-20 h-20 object-cover rounded-md mr-4"
 										onError={() =>
-											console.error("Error loading image:", post.image.url)
+											console.error("Error loading image:", post.image.data)
 										}
 									/>
 								)}
