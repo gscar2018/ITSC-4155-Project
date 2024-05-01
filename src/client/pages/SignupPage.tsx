@@ -35,44 +35,47 @@ function SignupPage() {
 
 	// Render signup form
 	return (
-		<div className="p-5">
-			<h2 className="text-2xl font-bold mb-4">Signup</h2>
-			{/* Display error message if exists */}
-			{error && <p className="text-error">{error}</p>}
-			<form onSubmit={handleSignup} className="form-control">
-				<input
-					type="text"
-					placeholder="Email"
-					value={email}
-					onChange={(e) => setEmail(e.target.value)}
-					className="border rounded px-3 py-2 mb-3"
-					required
-				/>
+		<div className="bg-gray-200 flex justify-center items-center h-screen w-screen">
+			<div className=" border-t-8 rounded-sm border-neutral bg-white p-12 shadow-2xl w-96">
+				<h2 className="font-bold text-center block text-2xl">Signup</h2>
+				{/* Display error message if exists */}
+				{error && <p className="text-error">{error}</p>}
+				<form onSubmit={handleSignup} className="form-control">
+					<input
+						type="text"
+						placeholder="Email"
+						value={email}
+						onChange={(e) => setEmail(e.target.value)}
+						className="border rounded px-3 py-2 mb-3"
+						required
+					/>
 				<br />
-				<input
-					type="password"
-					placeholder="Password"
-					value={password}
-					onChange={(e) => setPassword(e.target.value)}
-					className="border rounded px-3 py-2 mb-3"
-					required
-				/>
-				<br />
-				<input
-					type="text"
-					placeholder="Username"
-					value={username}
-					onChange={(e) => setUsername(e.target.value)}
-					className="border rounded px-3 py-2 mb-3"
-					required
-				/>
-				<button
-					type="submit"
-					className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-				>
-					Signup
-				</button>
-			</form>
+					<input
+						type="text"
+						placeholder="Username"
+						value={username}
+						onChange={(e) => setUsername(e.target.value)}
+						className="border rounded px-3 py-2 mb-3"
+						required
+					/>
+					<br />
+					<input
+						type="password"
+						placeholder="Password"
+						value={password}
+						onChange={(e) => setPassword(e.target.value)}
+						className="border rounded px-3 py-2 mb-3"
+						required
+					/>
+					<br />
+					<button
+						type="submit"
+						className="bg-neutral-500 hover:bg-neutral-700 text-white font-bold py-2 px-4 rounded mt-3"
+					>
+						Submit
+					</button>
+				</form>
+			</div>
 		</div>
 	);
 }

@@ -43,10 +43,11 @@ function UploadPage() {
 	};
 
 	return (
-		<div className="container mx-auto py-8 flex flex-col items-center justify-center">
+		<div className="bg-gray-200 flex justify-center items-center h-screen w-screen">
+		<div className="border-t-8 rounded-sm border-neutral bg-white p-12 shadow-2xl">
 			<h1 className="text-2xl font-bold mb-4">Upload Post</h1>
 			<form onSubmit={handleSubmit} className="form-control max-w-sm ">
-				<div className="mb-4">
+				{/* <div className="mb-4">
 					<label htmlFor="title" className="label">
 						<span className="label-text">Title:</span>
 					</label>
@@ -58,7 +59,7 @@ function UploadPage() {
 						onChange={(e) => setTitle(e.target.value)}
 						required
 					/>
-				</div>
+				</div> */}
 				<div className="mb-4">
 					<label htmlFor="tags" className="label">
 						<span className="label-text">Tags (optional):</span>
@@ -72,11 +73,14 @@ function UploadPage() {
 						onChange={(e) => setTags(e.target.value)}
 					/>
 				</div>
+				<div className="w-300 h-300 overflow:auto ">
 				<ImageUpload />
+				</div>
 				<button type="submit" className=" py-5 btn btn-primary rounded-md">
 					Upload
 				</button>
 			</form>
+		</div>
 		</div>
 	);
 }
