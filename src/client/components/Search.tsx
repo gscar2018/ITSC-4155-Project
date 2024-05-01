@@ -92,7 +92,6 @@ const Search = () => {
 									/>
 								)}
 								<div>
-									<h4 className="text-lg font-semibold">{post.title}</h4>
 									<div className="mt-2 flex flex-wrap gap-2">
 										{post.tags.map((tag) => (
 											<span
@@ -114,3 +113,4 @@ const Search = () => {
 };
 
 export default Search;
+
