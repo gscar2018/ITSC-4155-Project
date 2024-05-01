@@ -83,7 +83,7 @@ const Search = () => {
 							>
 								{post.image && (
 									<img
-										src={post.image.url}
+										src={post.image.data || post.image.url}
 										alt="Post"
 										className="w-20 h-20 object-cover rounded-md mr-4"
 										onError={() =>
