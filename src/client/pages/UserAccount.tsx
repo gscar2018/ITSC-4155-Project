@@ -96,10 +96,7 @@ function UserAccount() {
                                             loading="lazy"
                                         />
                                     </figure>
-                                    <div className="card-body items-center text-center p-4">
-                                        <h3 className="card-title">{post.title}</h3>
-                                        <p>{post.content}</p>
-                                    </div>
+
                                 </NavLink>
                             </div>
                         ))}
