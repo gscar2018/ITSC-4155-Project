@@ -9,11 +9,6 @@ function HomePage() {
 	const { userId } = useAuth();
 	return (
 		<div className="p-5">
-			<div className="flex justify-center my-5">
-				{/* <ImageUpload onUploadSuccess={() => setRefreshPage(true)} />{" "} */}
-				{/* Pass a function to trigger refresh */}
-				<a href={`/account/${userId}`}>Account test</a>
-			</div>
 			<div className="gap-5 grid grid-cols-1  md:grid-cols-3 items-center justify-center">
 				{/* loop to render card*/}
 				{data
