@@ -49,6 +49,7 @@ function ImageUpload() {
 	};
 
 
+
 	return (
 		<div className="join join-vertical">
 			<div
@@ -57,6 +58,7 @@ function ImageUpload() {
 				onDrop={handleDrop}
 				onClick={() => fileInputRef.current?.click()}
 				onKeyDown={() => fileInputRef.current?.click()}
+				style={{ margin: "20px" }} // Add margin space
 			>
 				<input
 					className="join-item hidden"
@@ -65,7 +67,7 @@ function ImageUpload() {
 					onChange={handleFileChange}
 					required
 				/>
-				<div className="flex flex-col items-center justify-center">
+				<div className="flex flex-col items-center justify-center" >
 					<Icon icon="mdi:upload" className="text-6xl" />
 					<p className="text-lg text-accent-content">
 						Click to upload or drag & Drop
@@ -73,7 +75,7 @@ function ImageUpload() {
 					{fileName && <p className="text-sm font-light italic">{fileName}</p>}
 					<p className="text-sm font-light italic">PNG JPG or SVG</p>
 					{previewURL && (
-						<img src={previewURL} alt="Preview" className="mt-4" />
+						<img src={previewURL} alt="Preview" className="mt-4 w-40 h-40" />
 					)}
 				</div>
 			</div>
