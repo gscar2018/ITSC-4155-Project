@@ -81,3 +81,12 @@ export const addToFavoritesHandler = async (userId: string, postId: string) => {
 		throw error;
 	}
 };
+
+export const deletePostHandler = async (postId: string) => {
+	try {
+		await axios.delete(`/api/data/${postId}`);
+	} catch (error) {
+		console.error("Error deleting post:", error);
+		throw error;
+	}
+};

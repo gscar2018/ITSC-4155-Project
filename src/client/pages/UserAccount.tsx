@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "../api/auth/authContext";
 import { NavLink, useParams } from "react-router-dom";
 import {
+    deletePostHandler,
     getUserFavoritesHandler,
     getUserHandler,
     getUserPostsHandler,
 } from "../api/apiCalls";
 import type { Post, User } from "../../types";
+import { Icon } from "@iconify/react/dist/iconify.js";
 const DEFAULT_COLLECTION_NAME = "Favorites";
 
 function UserAccount() {
@@ -54,6 +56,13 @@ function UserAccount() {
                                 className="card bg-base-200 shadow-xl justify-around"
                             >
                                 <figure className="p-4">
+                                    <button
+                                        type="button"
+                                        onClick={() => deletePostHandler(post._id)}
+                                        className="z-10 btn btn-sm bg-error btn-circle absolute right-2 top-2 hover:bg-red-300 transition-colors"
+                                    >
+                                        <Icon icon="mdi:close" className="text-error-content" />
+                                    </button>
                                     <NavLink to={`/post/${post._id}`} className="w-full">
                                         <img
                                             src={
@@ -87,7 +96,7 @@ function UserAccount() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                         {favPosts.map((post: Post) => (
                             <div key={post._id} className="card bg-base-200 shadow-xl">
-                                <NavLink to={`/post/${post._id}`} className="w-full hover:transform hover:scale-105 hover:brightness-50 transition duration-300">
+                                <NavLink to={`/post/${post._id}`} className="w-full hover:transform hover:scale-105 transition duration-300">
                                     <figure className="px-4 pt-4">
                                         <img
                                             src={post.image.data || `${window.location.origin}/${post.image.url}`}

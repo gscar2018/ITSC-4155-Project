@@ -114,6 +114,21 @@ export async function createPost(req: Request, res: Response) {
 	}
 }
 
+export const deletePost = async (req: Request, res: Response) => {
+	try {
+		//post id given in req.params
+		const { postId } = req.params;
+		const deletedPost = await PostModel.findByIdAndDelete(postId);
+		if (!deletedPost) {
+			return res.status(404).json({ error: "Post not found" });
+		}
+		await cacheWrapper.del("posts");
+		return res.sendStatus(200);
+	} catch (error) {
+		console.error("Error deleting post:", error);
+		return res.status(500).json({ error: "Internal Server Error" });
+	}
+};
 // --------------------------User Posts/Favs-----------------------------------
 export const getUser = async (req: Request, res: Response) => {
 	try {
