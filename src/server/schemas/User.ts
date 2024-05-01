@@ -5,9 +5,7 @@ export interface UserDocument extends Document {
 	username: string;
 	email: string;
 	password: string;
-	favoritePosts: {
-		[collectionName: string]: string[];
-	};
+	favoritePosts: string[];
 	createdAt: Date;
 }
 
@@ -19,11 +17,8 @@ const userSchema = new Schema<UserDocument>({
 		unique: true,
 	},
 	password: { type: String, required: [true, "Password cannot be empty"] },
-	favoritePosts: {
-		type: Map,
-		of: [{ type: Schema.Types.ObjectId, ref: "Post" }],
-		default: {},
-	},
+	favoritePosts: [{ type: Schema.Types.ObjectId, ref: "Post", default: [] }],
+
 	createdAt: { type: Date, default: Date.now },
 });
 

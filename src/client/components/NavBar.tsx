@@ -100,7 +100,7 @@ const NavBar = () => {
 											to={`/account/${userId}`}
 											className="text-base-content"
 										>
-											Upload
+											Account
 										</NavLink>
 									</li>
 								</div>

@@ -73,3 +73,11 @@ export const getUserFavoritesHandler = async (userId: string) => {
 		throw error;
 	}
 };
+export const addToFavoritesHandler = async (userId: string, postId: string) => {
+	try {
+		await axios.post(`/api/users/${userId}/favorites/post`, { postId });
+	} catch (error) {
+		console.error("Error adding to favorites:", error);
+		throw error;
+	}
+};
