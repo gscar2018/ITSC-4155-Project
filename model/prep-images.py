@@ -32,7 +32,7 @@ images = []
 tags = []
 
 for file_name in os.listdir('data'):
-    if file_name.endswith('.jpg') or file_name.endswith('.png'):
+    if file_name.endswith('.jpg') or file_name.endswith('.png') or file_name.endswith('.jpeg'):
         image = Image.open(f'data/{file_name}')
         if image.mode != "RGB":
             image = image.convert("RGB")

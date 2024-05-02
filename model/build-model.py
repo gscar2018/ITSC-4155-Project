@@ -25,7 +25,7 @@ total_original = 9083
 # we might do this outside the script eventually since it will probably get quite large
 # for what it's worth, the first 4 neurons are rating tags which is probably useful
 # character tags start at 6952 - the rest are general tags we can try to ignore
-keep_tag_indices = [0, 1, 2, 3, *range(6952, total_original)]
+keep_tag_indices = [0, 1, 2, 3, *range(6951, total_original)]
 original_weights, original_biases = model.layers[-2].get_weights()
 
 additional_tags = [
@@ -36,8 +36,47 @@ additional_tags = [
     'anyas_heh_face',
     # https://knowyourmeme.com/memes/anyas-heh-face-anya-smug-face
     'two_buttons',
-    # https://knowyourmeme.com/memes/daily-struggle-two-buttons,
+    # https://knowyourmeme.com/memes/daily-struggle-two-buttons
     'two_soyjaks_pointing',
+    # https://knowyourmeme.com/memes/ouhhh-husbant-now-we-are-homeress
+    'now_we_are_homeless'
+    # https://knowyourmeme.com/memes/you-can-just-give-this-kind-of-thing-to-men-and-they-will-be-thrilled
+    'they_will_be_thrilled',
+    # https://knowyourmeme.com/memes/donald-trumps-mugshot
+    'trumps_mugshot',
+    # https://knowyourmeme.com/memes/success-kid-i-hate-sandcastles
+    'success_kid',
+    'rage_comics',
+    'drunk_baby',
+    'bro_visited_his_friend',
+    'drakeposting',
+    'rage_comics',
+    'forever_alone',
+    'no_rage_face',
+    'fuck_yeah',
+    'cereal_guy',
+    'trollface',
+    'trollge',
+    'oh_god_why',
+    'rage_guy',
+    'neglected_drowning',
+    'doge',
+    'cheems',
+    'swole_doge',
+    'deep_fried',
+    'wojak',
+    'pink_wojak',
+    'withered_wojak',
+    'big_brain',
+    'psycho_wojak',
+    'zoomer',
+    'boomer',
+    'doomer',
+    'soyjak',
+    'npc',
+    'ah_eto_bleh',
+    'virgin_vs_chad',
+    'pogchamp',
 ]
 
 new_neurons = len(additional_tags)
