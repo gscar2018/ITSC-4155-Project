@@ -2,7 +2,8 @@ import type React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../api/auth/authContext";
-
+import { motion } from "framer-motion";
+import { ToastContainer, toast } from "react-toastify";
 function SignupPage() {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
@@ -16,9 +17,19 @@ function SignupPage() {
         try {
             console.log(email, password, username);
             await signup(email, password, username);
+            toast.success("Signup successful! You will be redirected shortly", {
+                position: "bottom-right",
+                autoClose: 2000,
+                theme: "dark",
+            })
             navigate("/");
         } catch (error) {
             console.error("Signup failed:", error);
+            toast.error("Signup failed. Please try again.", {
+                position: "bottom-right",
+                autoClose: 3000,
+                theme: "dark",
+            })
             setError("Signup failed. Please try again."); // Set error message
         }
     };
@@ -35,11 +46,15 @@ function SignupPage() {
 
     // Render signup form
     return (
-        <div className="bg-base-200 flex justify-center items-center h-screen w-screen">
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="bg-base-200 flex justify-center items-center h-screen w-screen">
             <div className=" border-t-8 rounded-sm border-neutral bg-base-100 p-12 shadow-2xl w-96">
                 <h2 className="font-bold text-center block text-2xl">Signup</h2>
                 {/* Display error message if exists */}
-                {error && <p className="text-error">{error}</p>}
+                <ToastContainer />
                 <form onSubmit={handleSignup} className="form-control">
                     <input
                         type="text"
@@ -76,7 +91,7 @@ function SignupPage() {
                     </button>
                 </form>
             </div>
-        </div>
+        </motion.div>
     );
 }
 

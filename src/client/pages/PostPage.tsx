@@ -3,7 +3,7 @@ import { useLoaderData } from "react-router-dom";
 import type { Post } from "../../types.js";
 import { useAuth } from "../api/auth/authContext.js";
 import { deletePostHandler } from "../api/apiCalls.js";
-
+import { motion } from "framer-motion";
 function PostPage() {
     const post = useLoaderData() as Post;
     const [username, setUsername] = useState("");
@@ -27,13 +27,19 @@ function PostPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="flex flex-col space-y-2 items-center justify-center md:justify-start md:items-start">
                     <h1>Posted by: {username}</h1>
-                    <img
-                        src={
-                            post.image.data || `${window.location.origin}/${post.image.url}`
-                        }
-                        alt={post.image.caption}
-                        className="w-auto h-auto object-cover rounded-lg"
-                    />
+                    <motion.div
+                        initial={{ opacity: 0, x: -100 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.5 }}
+                    >
+                        <img
+                            src={
+                                post.image.data || `${window.location.origin}/${post.image.url}`
+                            }
+                            alt={post.image.caption}
+                            className="w-auto h-auto object-cover rounded-lg"
+                        />
+                    </motion.div>
                     {isOwner && (
                         <div className="flex justify-center mt-4">
                             <button
