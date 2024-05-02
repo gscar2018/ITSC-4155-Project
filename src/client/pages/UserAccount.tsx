@@ -9,8 +9,7 @@ import {
 } from "../api/apiCalls";
 import type { Post, User } from "../../types";
 import { Icon } from "@iconify/react/dist/iconify.js";
-const DEFAULT_COLLECTION_NAME = "Favorites";
-
+import { motion } from "framer-motion";
 function UserAccount() {
     const { userId } = useAuth();
     const [user, setUser] = useState<User>();
@@ -47,71 +46,84 @@ function UserAccount() {
     const renderTabContent = () => {
         if (activeTab === "home") {
             return (
-                <section>
-                    <h2 className="text-2xl font-semibold mb-4">Your Posts</h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                        {userPosts.map((post: Post) => (
-                            <div
-                                key={post._id}
-                                className="card bg-base-200 shadow-xl justify-around"
-                            >
-                                <figure className="p-4">
-                                    <button
-                                        type="button"
-                                        onClick={() => deletePostHandler(post._id)}
-                                        className="z-10 btn btn-sm bg-error btn-circle absolute right-2 top-2 hover:bg-red-300 transition-colors"
-                                    >
-                                        <Icon icon="mdi:close" className="text-error-content" />
-                                    </button>
-                                    <NavLink to={`/post/${post._id}`} className="w-full">
-                                        <img
-                                            src={
-                                                post.image.data ||
-                                                `${window.location.origin}/${post.image.url}`
-                                            }
-                                            alt={post.image.caption}
-                                            className="rounded-xl w-full object-cover"
-                                        />
-                                    </NavLink>
-                                </figure>
-                                {/*<div className="card-body items-center text-center p-4">*/}
-                                {/*	<h3 className="card-title">{post.title}</h3>*/}
-                                {/*	*/}
-                                {/*		<button type="button" className="btn btn-primary">*/}
-                                {/*			View Post*/}
-                                {/*		</button>*/}
-                                {/*	*/}
-                                {/*</div>*/}
-                            </div>
-                        ))}
-                    </div>
-                </section>
+                <motion.div
+                    initial={{ x: -50, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    exit={{ x: 50, opacity: 0 }}
+                >
+                    <section>
+                        <h2 className="text-2xl font-semibold mb-4">Your Posts</h2>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                            {userPosts.map((post: Post) => (
+                                <div
+                                    key={post._id}
+                                    className="card bg-base-200 shadow-xl justify-around"
+                                >
+                                    <figure className="p-4">
+                                        <button
+                                            type="button"
+                                            onClick={() => deletePostHandler(post._id)}
+                                            className="z-10 btn btn-sm bg-error btn-circle absolute right-2 top-2 hover:bg-red-300 transition-colors"
+                                        >
+                                            <Icon icon="mdi:close" className="text-error-content" />
+                                        </button>
+                                        <NavLink to={`/post/${post._id}`} className="w-full">
+                                            <img
+                                                src={
+                                                    post.image.data ||
+                                                    `${window.location.origin}/${post.image.url}`
+                                                }
+                                                alt={post.image.caption}
+                                                className="rounded-xl w-full object-cover"
+                                            />
+                                        </NavLink>
+                                    </figure>
+                                    {/*<div className="card-body items-center text-center p-4">*/}
+                                    {/*	<h3 className="card-title">{post.title}</h3>*/}
+                                    {/*	*/}
+                                    {/*		<button type="button" className="btn btn-primary">*/}
+                                    {/*			View Post*/}
+                                    {/*		</button>*/}
+                                    {/*	*/}
+                                    {/*</div>*/}
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                </motion.div>
             );
         }
         if (activeTab === "favorites") {
             return (
-                <section>
-                    <h2 className="text-2xl font-semibold mb-4">Favorite Posts</h2>
-                    {/* Render favorite posts */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                        {favPosts.map((post: Post) => (
-                            <div key={post._id} className="card bg-base-200 shadow-xl">
-                                <NavLink to={`/post/${post._id}`} className="w-full hover:transform hover:scale-105 transition duration-300">
-                                    <figure className="px-4 pt-4">
-                                        <img
-                                            src={post.image.data || `${window.location.origin}/${post.image.url}`}
-                                            alt={post.title}
-                                            className="rounded-xl w-full h-40 object-cover"
-                                            loading="lazy"
-                                        />
-                                    </figure>
+                <motion.div
+                    key={Math.random()} // Add this line
 
-                                </NavLink>
-                            </div>
-                        ))}
-                    </div>
-                </section>
+                    initial={{ x: -50, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    exit={{ x: 50, opacity: 0 }}
+                >
+                    <section>
+                        <h2 className="text-2xl font-semibold mb-4">Favorite Posts</h2>
+                        {/* Render favorite posts */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                            {favPosts.map((post: Post) => (
+                                <div key={post._id} className="card bg-base-200 shadow-xl">
+                                    <NavLink to={`/post/${post._id}`} className="w-full hover:transform hover:scale-105 transition duration-300">
+                                        <figure className="px-4 pt-4">
+                                            <img
+                                                src={post.image.data || `${window.location.origin}/${post.image.url}`}
+                                                alt={post.title}
+                                                className="rounded-xl w-full h-40 object-cover"
+                                                loading="lazy"
+                                            />
+                                        </figure>
 
+                                    </NavLink>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                </motion.div>
 
             );
         }
