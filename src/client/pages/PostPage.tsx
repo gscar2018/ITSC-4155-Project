@@ -37,7 +37,7 @@ function PostPage() {
                                 post.image.data || `${window.location.origin}/${post.image.url}`
                             }
                             alt={post.image.caption}
-                            className="w-auto h-auto object-cover rounded-lg"
+                            className=" w-auto h-auto object-cover rounded-lg"
                         />
                     </motion.div>
                     {isOwner && (
@@ -59,7 +59,7 @@ function PostPage() {
                             return (
                                 <span
                                     key={tag}
-                                    className="inline-block bg-base-200 rounded-full px-3 py-1 text-sm font-semibold"
+                                    className="inline-block bg-blue-500 rounded-full px-3 py-1 text-white text-sm font-semibold"
                                 >
                                     {tag}
                                 </span>

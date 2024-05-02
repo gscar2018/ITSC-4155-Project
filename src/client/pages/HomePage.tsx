@@ -86,7 +86,7 @@ function HomePage() {
                                     </button>
                                     <div className="flex flex-wrap justify-center gap-2 mb-4 ">
                                         {post.tags.map((tag) => (
-                                            <span key={tag} className="badge py-2 badge-outline">{tag}</span>
+                                            <span key={tag} className="inline-block bg-blue-500 rounded-full px-3 py-1 text-white text-sm font-semibold">{tag}</span>
                                         ))}
                                     </div>
                                     {/* have btn glow on hover  */}

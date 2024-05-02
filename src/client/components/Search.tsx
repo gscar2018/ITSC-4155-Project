@@ -120,7 +120,7 @@ const Search = () => {
                                         {post.tags.map((tag) => (
                                             <span
                                                 key={tag}
-                                                className="inline-block bg-base-200 rounded-full px-3 text-sm font-semibold"
+                                                className="inline-block bg-blue-500 rounded-full px-3 py-1 text-white text-sm font-semibold"
                                             >
                                                 {tag}
                                             </span>
