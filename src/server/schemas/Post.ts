@@ -4,7 +4,7 @@ import type { Post } from "../../types.ts";
 // Define the schema for the post document
 const postSchema = new Schema<Post>({
 	user: { type: Schema.Types.ObjectId, ref: "User", required: true },
-	title: { type: String, required: true },
+	title: { type: String},
 	content: { type: String, required: true },
 	image: {
 		url: { type: String },

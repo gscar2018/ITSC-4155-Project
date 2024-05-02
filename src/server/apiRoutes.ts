@@ -2,6 +2,7 @@ import express from "express";
 import { getPosts, getPostById } from "./apiMethods.ts";
 import { imageUploadHandler, createPost } from "./apiMethods.ts";
 import { searchPostsByTags } from "./controllers/postController.ts";
+import { deletePost } from "./apiMethods.ts";
 const router = express.Router();
 
 //test api route for TestPage.tsx in client
@@ -22,6 +23,6 @@ router.post("/data/upload", imageUploadHandler, createPost);
 router.get("/posts/search", searchPostsByTags);
 
 //endpoint for deleting a post
-router.delete("/data/:id", createPost);
+router.delete("/data/:postId", deletePost);
 
 export default router;

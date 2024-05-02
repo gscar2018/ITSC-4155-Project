@@ -12,7 +12,7 @@ function PostPage() {
 
     useEffect(() => {
         //check if owner
-        if (userId === post.user) {
+        if (typeof post.user === 'string' && userId === post.user) {
             setIsOwner(true);
         }
         // Fetch the username based on the user ID associated with the post
