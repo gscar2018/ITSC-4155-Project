@@ -26,9 +26,16 @@ const Search = () => {
         };
     }, []);
 
+    useEffect(() => {
+        if (searchQuery !== "") {
+            handleSearch();
+        }
+    }, [searchQuery]);
+
     const handleSearch = async () => {
+        setLoading(true);
         try {
-            setLoading(true);
+            
             console.log("Searching for posts with tags:", searchQuery);
 
             const response = await axios.get(`/api/posts/search?tags=${searchQuery}`);
@@ -81,7 +88,7 @@ const Search = () => {
                     type="button"
                     onClick={handleSearch}
                     disabled={loading}
-                    className="btn btn-sm join-item bg-neutral text-white"
+                    className="btn btn-sm join-item bg-neutral text-white "
                 >
                     Search
                 </button>
