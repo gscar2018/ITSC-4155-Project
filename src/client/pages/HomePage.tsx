@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router-dom";
+import { NavLink, useLoaderData } from "react-router-dom";
 import type { Post } from "../../types";
 import { useAuth } from "../api/auth/authContext";
 import { Icon } from "@iconify/react/dist/iconify.js";
@@ -6,6 +6,9 @@ import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { addToFavoritesHandler, getUserHandler } from "../api/apiCalls";
 import 'react-toastify/dist/ReactToastify.css';
+import { motion } from "framer-motion";
+
+import '../index.css';
 
 function HomePage() {
     const data = useLoaderData() as Post[];
@@ -48,67 +51,53 @@ function HomePage() {
     return (
         <>
             <ToastContainer />
-            <div className="p-5">
-                <div className="gap-5 grid grid-cols-1  md:grid-cols-3 items-center justify-center">
-                    {/* loop to render card*/}
-                    {data
-                        .slice()
-                        .reverse()
-                        .map((post, index) => {
-                            if (!post || !post.image) {
-                                console.warn(
-                                    `Post at index ${index} is undefined or missing image.`,
-                                );
-                                return null; // Or display a placeholder component/message.
-                            }
-                            return (
-                                <div
-                                    className="container flex flex-col items-center"
-                                    key={post._id}
-                                >
-                                    <div className="relative">
-                                        {/* dynamic img size based on mobile or desktop screen size */}
-                                        <img
-                                            src={post.image.data || post.image.url}
-                                            alt={post.image.caption}
-                                            className="w-64 h-64 md:w-80 md:h-80 object-cover rounded-lg"
-                                        />
-                                        <div className="absolute bottom-0 right-0 cursor-pointer">
-                                            <button
-                                                type="button"
-                                                className="p-2"
-                                                onClick={() => handleFavorite(post)}
-                                            >
-                                                <Icon
-                                                    icon={
-                                                        favoritedPosts.includes(post._id)
-                                                            ? "mdi:heart"
-                                                            : "mdi:heart-outline"
-                                                    }
-                                                    className="text-red-400 text-3xl"
-                                                />
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div className="mt-4 flex flex-wrap justify-center gap-2">
+            <div className="p-8 mx-20 md:mx-32">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+                    {data.slice().reverse().map((post, index) => {
+                        if (!post || !post.image) {
+                            console.warn(`Post at index ${index} is undefined or missing image.`);
+                            return null;
+                        }
+                        return (
+                            <motion.div
+                                variants={{
+                                    hidden: {
+                                        opacity: 0,
+                                        y: 100,
+                                    },
+                                    visible: {
+                                        opacity: 1,
+                                        y: 0,
+                                        transition: {
+                                            staggerChildren: 0.1,
+                                        },
+                                    },
+                                }}
+                                initial="hidden"
+                                animate="visible"
+                                className="card bg-base-200 shadow-md rounded-lg overflow-hidden " key={post._id}>
+                                <figure className="relative">
+                                    <img src={post.image.data || post.image.url} alt={post.image.caption} className="w-full h-52 object-cover " />
+                                    <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-primary to-transparent opacity-20  transition-opacity duration-300 hover:opacity-40" />
+                                </figure>
+                                <div className="card-body p-1">
+                                    <button type="button" className="flex  justify-end " onClick={() => handleFavorite(post)}>
+                                        <Icon icon={favoritedPosts.includes(post._id) ? "mdi:heart" : "mdi:heart-outline"} className="text-red-700 text-4xl hover:text-red-900 transition-colors" />
+                                    </button>
+                                    <div className="flex flex-wrap justify-center gap-2 mb-4 ">
                                         {post.tags.map((tag) => (
-                                            <span
-                                                key={tag}
-                                                className="inline-block bg-base-200 rounded-full px-3 py-1 text-sm font-semibold"
-                                            >
-                                                {tag}
-                                            </span>
+                                            <span key={tag} className="badge py-2 badge-outline">{tag}</span>
                                         ))}
                                     </div>
-                                    <a
-                                        className="mt-6 btn btn-sm btn-neutral text-neutral-content font-bold py-2 px-4 rounded"
-                                        href={`/post/${post._id}`}
-                                    >
+                                    {/* have btn glow on hover  */}
+                                    <NavLink to={`/post/${post._id}`} className="btn btn-primary btn-block hover:btn-secondary glow-effect">
                                         View More
-                                    </a>
+                                    </NavLink>
+
                                 </div>
-                            );
-                        })}
+                            </motion.div>
+                        );
+                    })}
                 </div>
             </div>
         </>
