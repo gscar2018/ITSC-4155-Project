@@ -10,6 +10,10 @@ function PostPage() {
     const post = useLoaderData() as Post;
     const [username, setUsername] = useState("");
     const [isOwner, setIsOwner] = useState(false);
+    const [isSending, setIsSending] = useState(false);
+    const [images, setImages] = useState<File[]>([]);
+    const [imgBlob, setImgBlob] = useState<Blob>();
+
     const { userId } = useAuth();
 
     useEffect(() => {
@@ -24,45 +28,6 @@ function PostPage() {
             .catch((error) => console.error("Error fetching username:", error));
     }, [post.user, userId]);
     console.log(post.image);
-    const base64Str = post.image.data?.split(",")[1];
-    const charArr = base64Str?.split("");
-    console.log(base64Str);
-    function OpenAiHandler() {
-        const sendMessage = async () => {
-            setIsSending(true);
-
-            //convert image to base64 strings for backend 
-            console.log(post.image.data);
-
-            //wait for images to be converted
-            const imageBase64Strings = await Promise.all(imagePromises);
-
-            ///payload for the openai api
-            const payload = { images: imageBase64Strings };
-
-            try {
-                const response = await fetch("/api/openai", {
-                    body: JSON.stringify(payload),
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                });
-
-                //error handling
-                if (!response.ok) {
-                    throw new Error("Failed to send message");
-                }
-                //
-            } catch (error) {
-                toast.error("Failed to send message");
-                console.error(error);
-            } finally {
-                setIsSending(false);
-            }
-        }
-    };
-
 
     return (
         <div className="container mx-auto py-8">
@@ -108,7 +73,7 @@ function PostPage() {
                             );
                         })}
                     </div>
-                    <OpenAiBtn />
+                    <OpenAiBtn post= {post}/>
                 </div>
             </div>
         </div>

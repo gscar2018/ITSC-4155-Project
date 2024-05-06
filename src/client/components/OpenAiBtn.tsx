@@ -1,11 +1,16 @@
 import { useRef, useState } from "react";
 import { FiLock } from "react-icons/fi";
 import { motion } from "framer-motion";
+import type { Post } from "../../types";
+import sendMessage from "../api/openai/openAIhandler";
 
-const OpenAiBtn = () => {
+
+const OpenAiBtn = ({post}: {post: Post}) => {
     return (
         <div className="grid min-h-[200px] place-content-center  p-4">
+            <button onClick={() => sendMessage(post)}>
             <EncryptButton />
+            </button>
             <div className="text-center text-neutral-400 text-sm mt-2">
                 powered by{" "}
                 <a

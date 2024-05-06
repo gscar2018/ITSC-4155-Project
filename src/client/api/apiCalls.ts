@@ -16,6 +16,7 @@ export const fetchPostSlug = async ({
 	return response.json();
 };
 
+
 export const createPost = async (formData: FormData) => {
 	try {
 		const response = await axios.post("/api/data/upload", formData, {

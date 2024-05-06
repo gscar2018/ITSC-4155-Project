@@ -39,6 +39,18 @@ export async function getPostById(req: Request, res: Response) {
 		return res.status(500).json({ error: "Internal Server Error" });
 	}
 }
+//making function to get post.image.data from database specifically
+export async function getImageForOpenai(req: Request, res:Response) {
+	try {
+		const post: Post | null = await PostModel.findById(req.params.id).lean();
+		if (post) {
+			return res.json(post.image.data);
+		}
+	} catch (error) {
+		console.error("Could not get post:", error);
+		return res.status(500).json({ error: "Internal Server Error" });
+	}
+}
 
 // Setting up Multer
 const storage = multer.diskStorage({
