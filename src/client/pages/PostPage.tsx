@@ -4,6 +4,8 @@ import type { Post } from "../../types.js";
 import { useAuth } from "../api/auth/authContext.js";
 import { deletePostHandler } from "../api/apiCalls.js";
 import { motion } from "framer-motion";
+import OpenAiBtn from "../components/OpenAiBtn.js";
+import { toast } from "react-toastify";
 function PostPage() {
     const post = useLoaderData() as Post;
     const [username, setUsername] = useState("");
@@ -21,6 +23,46 @@ function PostPage() {
             .then((userData) => setUsername(userData.username))
             .catch((error) => console.error("Error fetching username:", error));
     }, [post.user, userId]);
+    console.log(post.image);
+    const base64Str = post.image.data?.split(",")[1];
+    const charArr = base64Str?.split("");
+    console.log(base64Str);
+    function OpenAiHandler() {
+        const sendMessage = async () => {
+            setIsSending(true);
+
+            //convert image to base64 strings for backend 
+            console.log(post.image.data);
+
+            //wait for images to be converted
+            const imageBase64Strings = await Promise.all(imagePromises);
+
+            ///payload for the openai api
+            const payload = { images: imageBase64Strings };
+
+            try {
+                const response = await fetch("/api/openai", {
+                    body: JSON.stringify(payload),
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+
+                //error handling
+                if (!response.ok) {
+                    throw new Error("Failed to send message");
+                }
+                //
+            } catch (error) {
+                toast.error("Failed to send message");
+                console.error(error);
+            } finally {
+                setIsSending(false);
+            }
+        }
+    };
+
 
     return (
         <div className="container mx-auto py-8">
@@ -66,6 +108,7 @@ function PostPage() {
                             );
                         })}
                     </div>
+                    <OpenAiBtn />
                 </div>
             </div>
         </div>
