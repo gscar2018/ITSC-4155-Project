@@ -3,7 +3,7 @@ import { getPosts, getPostById, getImageForOpenai } from "./apiMethods.ts";
 import { imageUploadHandler, createPost } from "./apiMethods.ts";
 import { searchPostsByTags } from "./controllers/postController.ts";
 import { deletePost } from "./apiMethods.ts";
-import handler from "../client/api/openai/routes.ts";
+import handler from "./routes.ts";
 const router = express.Router();
 
 //test api route for TestPage.tsx in client

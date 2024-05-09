@@ -1,7 +1,9 @@
 import { OpenAI } from "openai";
 import type { ChatCompletionContentPart } from "openai/resources/index.mjs";
 import type { Request, Response } from "express";
+import "dotenv/config";
 
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 //api handler function
 export default async function handler(req: Request, res: Response) {
 	try {
@@ -17,20 +19,11 @@ export default async function handler(req: Request, res: Response) {
 		}
 		//initalizes openAI client
 		const openai = new OpenAI({
-			apiKey: process.env.OPENAI_API_KEY,
+			apiKey: OPENAI_API_KEY,
 		});
-
-		//convert image to base64 strings for backend
-		// const imageMessage: ChatCompletionContentPart[] ={
-		// 		type: "image_url",
-		// 		image_url: {
-		// 			url: images[0],
-		// 		},
-		//     }
-
 		//CREATE A CHAT COMPLETION request
 		const response = await openai.chat.completions.create({
-			model: "gpt-4-vision-preview",
+			model: "gpt-3.5-turbo",
 			stream: false,
 			messages: [
 				//user promt
@@ -51,7 +44,7 @@ export default async function handler(req: Request, res: Response) {
 					],
 				},
 			],
-			max_tokens: 300,
+			max_tokens: 4096,
 		});
 		//return the response with headers
 		console.log(response);
